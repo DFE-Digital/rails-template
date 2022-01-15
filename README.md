@@ -7,6 +7,7 @@ This is an application template for starting Ruby on Rails applications with GOV
 * asset bundling via [esbuild](https://esbuild.github.io/)
 * [GOV.UK Components](https://govuk-components.netlify.app/)
 * [GOV.UK Form Builder](https://govuk-form-builder.netlify.app/)
+* [RSpec](https://rspec.info/)
 
 ## Requirements
 
@@ -18,7 +19,6 @@ This is an application template for starting Ruby on Rails applications with GOV
 
 ## Things that will be added soon
 
-* RSpec initialisation
 * a Dockerfile
 * GOV.UK PaaS config
 * FormBuilder setup and config

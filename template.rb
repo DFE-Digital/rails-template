@@ -1,8 +1,15 @@
 fail("Rails 7.0.0 or greater is required") if Rails.version <= "7"
 
 def install_gems
-  gem "govuk-components", "~> 3.0.1b1"
+  gem "govuk-components"
   gem "govuk_design_system_formbuilder"
+
+  gem_group :test do
+    gem "rspec"
+    gem "rspec-rails"
+  end
+
+  run "bundle install"
 end
 
 def create_procfile
@@ -169,8 +176,12 @@ def overwrite_pages_home_html_erb
 end
 
 def add_pages_controller
-  generate(:controller, "pages", "home", "--skip-routes", "--no-test-framework")
+  generate("controller", "pages", "home", "--skip-routes")
   route("root to: 'pages#home'")
+end
+
+def initialize_rspec
+  generate("rspec:install")
 end
 
 def yarn
@@ -189,6 +200,7 @@ after_bundle do
   create_application_js
   create_application_html_erb
 
+  initialize_rspec
   add_pages_controller
   overwrite_pages_home_html_erb
 
