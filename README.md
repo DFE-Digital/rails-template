@@ -21,7 +21,6 @@ This is an application template for starting Ruby on Rails applications with GOV
 
 * a Dockerfile
 * GOV.UK PaaS config
-* FormBuilder setup and config
 
 ## Example use
 
