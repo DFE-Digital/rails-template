@@ -232,6 +232,35 @@ def yarn
   run "yarn"
 end
 
+def initialize_git
+  append_to_file(
+    ".gitignore",
+    <<~GITIGNORE
+      # Frontend artifacts and libs
+      app/assets/builds/*
+      node_modules
+
+      # Platform/IDE-specific settings
+      .DS_Store
+      .idea
+      .vscode
+
+      # Local env settings
+      .env
+      .envrc
+      .env.local
+    GITIGNORE
+  )
+
+  git(:init)
+  git(add: ".")
+  git(commit: <<~COMMIT)
+    -m "Initial commit
+
+    Built using the Department for Education's Rails template"
+  COMMIT
+end
+
 install_gems
 
 after_bundle do
@@ -250,4 +279,6 @@ after_bundle do
   overwrite_pages_home_html_erb
 
   yarn
+
+  initialize_git
 end
