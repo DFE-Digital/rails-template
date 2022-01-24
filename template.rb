@@ -62,7 +62,8 @@ def create_package_json
         "scripts": {
           "build": "esbuild app/javascript/*.* --bundle --outdir=app/assets/builds",
           "build:css": "sass ./app/assets/stylesheets/application.scss ./app/assets/builds/application.css --no-source-map --load-path=node_modules",
-          "postinstall": "cp -rT node_modules/govuk-frontend/govuk/assets/fonts app/assets/builds/fonts && cp -rT node_modules/govuk-frontend/govuk/assets/images app/assets/builds/images"
+          "preinstall": "mkdir -p app/assets/builds/{fonts,images}",
+          "postinstall": "cp -R node_modules/govuk-frontend/govuk/assets/fonts/. app/assets/builds/fonts && cp -R node_modules/govuk-frontend/govuk/assets/images/. app/assets/builds/images"
         }
       }
     JSON
