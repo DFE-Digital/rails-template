@@ -54,10 +54,10 @@ def create_package_json
         "private": "true",
         "dependencies": {
           "@hotwired/stimulus": "^3.0.1",
-          "@hotwired/turbo-rails": "^7.1.0",
-          "govuk-frontend": "^4.0.0",
-          "esbuild": "^0.14.11",
-          "sass": "^1.47.0"
+          "@hotwired/turbo-rails": "^7.1.1",
+          "govuk-frontend": "^4.0.1",
+          "esbuild": "^0.14.23",
+          "sass": "^1.49.8"
         },
         "scripts": {
           "build": "esbuild app/javascript/*.* --bundle --outdir=app/assets/builds",
