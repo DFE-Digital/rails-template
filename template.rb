@@ -17,7 +17,7 @@ def create_procfile
     "Procfile.dev",
     <<~PROCFILE
       web: bin/rails server -p 3000
-      js: yarn build --watch
+      js: yarn build:js --watch
       css: yarn build:css --watch
     PROCFILE
   )
@@ -60,8 +60,8 @@ def create_package_json
           "sass": "^1.49.8"
         },
         "scripts": {
-          "build": "esbuild app/javascript/*.* --bundle --outdir=app/assets/builds",
           "build:css": "sass ./app/assets/stylesheets/application.scss ./app/assets/builds/application.css --no-source-map --load-path=node_modules",
+          "build:js": "esbuild app/javascript/*.* --bundle --outdir=app/assets/builds",
           "preinstall": "mkdir -p app/assets/builds/{fonts,images}",
           "postinstall": "cp -R node_modules/govuk-frontend/govuk/assets/fonts/. app/assets/builds/fonts && cp -R node_modules/govuk-frontend/govuk/assets/images/. app/assets/builds/images"
         }
