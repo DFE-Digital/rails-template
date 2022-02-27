@@ -60,7 +60,7 @@ def create_package_json
           "sass": "^1.49.8"
         },
         "scripts": {
-          "build:css": "sass ./app/assets/stylesheets/application.scss ./app/assets/builds/application.css --no-source-map --load-path=node_modules",
+          "build:css": "sass --embed-sources --quiet-deps --load-path=node_modules ./app/assets/stylesheets/application.scss ./app/assets/builds/application.css",
           "build:js": "esbuild app/javascript/*.* --bundle --outdir=app/assets/builds",
           "preinstall": "mkdir -p app/assets/builds/{fonts,images}",
           "postinstall": "cp -R node_modules/govuk-frontend/govuk/assets/fonts/. app/assets/builds/fonts && cp -R node_modules/govuk-frontend/govuk/assets/images/. app/assets/builds/images"
