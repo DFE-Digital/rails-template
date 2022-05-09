@@ -1,13 +1,24 @@
 fail("Rails 7.0.0 or greater is required") if Rails.version <= "7"
 
+def file_exists?(file)
+  File.exist?(file)
+end
+
+def file_contains?(file, contains)
+  return false unless file_exists?(file)
+
+  File.foreach(file).any? { |line| line.include?(contains) }
+end
+
 def install_gems
-  gem "govuk-components"
-  gem "govuk_design_system_formbuilder"
+  gem "govuk-components" unless file_contains?("Gemfile", "govuk-components")
+  gem "govuk_design_system_formbuilder" unless
+    file_contains?("Gemfile", "govuk_design_system_formbuilder")
 
   gem_group :test do
     gem "rspec"
     gem "rspec-rails"
-  end
+  end unless file_contains?("Gemfile", 'rspec-rails')
 
   run "bundle install"
 end
@@ -37,7 +48,7 @@ def create_bin_dev
 end
 
 def create_manifest_js
-  file("app/assets/config/manifest.js", force: true) do
+  file("app/assets/config/manifest.js") do
     <<~JS
       //= link_tree ../builds/images
       //= link_tree ../builds/
@@ -73,7 +84,7 @@ end
 def create_application_scss
   remove_file("app/assets/stylesheets/application.css")
 
-  file("app/assets/stylesheets/application.scss", force: true) do
+  file("app/assets/stylesheets/application.scss") do
     <<~SCSS
       @use "govuk-frontend/govuk/all";
     SCSS
@@ -81,7 +92,7 @@ def create_application_scss
 end
 
 def create_application_js
-  file("app/javascript/application.js", force: true) do
+  file("app/javascript/application.js") do
     <<~JAVASCRIPT
       import "@hotwired/turbo-rails";
       // import "./controllers";
@@ -94,7 +105,7 @@ def create_application_js
 end
 
 def create_application_html_erb
-  file("app/views/layouts/application.html.erb", force: true) do
+  file("app/views/layouts/application.html.erb") do
     <<~ERB
       <!DOCTYPE html>
       <html lang="en" class="govuk-template">
@@ -144,7 +155,12 @@ def create_application_html_erb
   end
 end
 
-def overwrite_pages_home_html_erb
+def add_pages_controller
+  return if file_exists?("app/controllers/pages_controller.rb")
+
+  generate("controller", "pages", "home", "--skip-routes")
+  route("root to: 'pages#home'") unless file_contains?("config/routes.rb", "root to:")
+
   file("app/views/pages/home.html.erb", force: true) do
     <<~ERB
       <div class="govuk-grid-row">
@@ -176,23 +192,20 @@ def overwrite_pages_home_html_erb
   end
 end
 
-def add_pages_controller
-  generate("controller", "pages", "home", "--skip-routes")
-  route("root to: 'pages#home'")
-end
-
 def initialize_rspec
-  generate("rspec:install")
+  generate("rspec:install") unless file_exists?(".rspec")
 end
 
 def initialize_formbuilder
+  return if file_contains?("config/initializers/govuk_formbuilder.rb", "GOVUKDesignSystemFormBuilder")
+
   inject_into_file(
     "app/controllers/application_controller.rb",
     "default_form_builder(GOVUKDesignSystemFormBuilder::FormBuilder)\n".indent(2),
     after: "class ApplicationController < ActionController::Base\n"
   )
 
-  file("config/initializers/govuk_formbuilder.rb", force: true) do
+  file("config/initializers/govuk_formbuilder.rb") do
     <<~RUBY
       GOVUKDesignSystemFormBuilder.configure do |config|
         # for more info see:
@@ -228,8 +241,9 @@ def initialize_formbuilder
   end
 end
 
-def yarn
-  run "mkdir app/assets/builds"
+def setup_yarn
+  empty_directory "app/assets/builds"
+
   run "yarn"
 end
 
@@ -264,22 +278,21 @@ end
 
 install_gems
 
+create_procfile
+create_bin_dev
+create_manifest_js
+create_package_json
+create_application_scss
+create_application_js
+create_application_html_erb
+
+initialize_rspec
+initialize_formbuilder
+
+add_pages_controller
+
+setup_yarn
+
 after_bundle do
-  create_procfile
-  create_bin_dev
-  create_manifest_js
-  create_package_json
-  create_application_scss
-  create_application_js
-  create_application_html_erb
-
-  initialize_rspec
-  initialize_formbuilder
-
-  add_pages_controller
-  overwrite_pages_home_html_erb
-
-  yarn
-
   initialize_git
 end
