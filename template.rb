@@ -48,7 +48,7 @@ def create_bin_dev
     SH
   )
 
-  run "chmod +x bin/dev"
+  chmod "bin/dev", "+x"
 end
 
 def create_manifest_js
