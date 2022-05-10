@@ -10,6 +10,10 @@ def file_contains?(file, contains)
   File.foreach(file).any? { |line| line.include?(contains) }
 end
 
+def read_template(path)
+  File.read(File.join(__dir__, 'tmpl', path))
+end
+
 def install_gems
   gem "govuk-components" unless file_contains?("Gemfile", "govuk-components")
   gem "govuk_design_system_formbuilder" unless
@@ -276,10 +280,17 @@ def initialize_git
   COMMIT
 end
 
+def create_bin_bundle
+  file("bin/bundle", read_template('bin_bundle.rb'))
+
+  chmod "bin/bundle", "+x"
+end
+
 install_gems
 
 create_procfile
 create_bin_dev
+create_bin_bundle
 create_manifest_js
 create_package_json
 create_application_scss
