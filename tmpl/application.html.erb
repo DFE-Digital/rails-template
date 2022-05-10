@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" class="govuk-template">
+  <head>
+    <title>GOV.UK Frontend on Rails</title>
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= tag :meta, name: 'viewport', content: 'width=device-width, initial-scale=1' %>
+    <%= tag :meta, property: 'og:image', content: asset_path('images/govuk-opengraph-image.png') %>
+    <%= tag :meta, name: 'theme-color', content: '#0b0c0c' %>
+    <%= favicon_link_tag asset_path('images/favicon.ico') %>
+    <%= favicon_link_tag asset_path('images/govuk-mask-icon.svg'), rel: 'mask-icon', type: 'image/svg', color: "#0b0c0c" %>
+    <%= favicon_link_tag asset_path('images/govuk-apple-touch-icon.png'), rel: 'apple-touch-icon', type: 'image/png' %>
+    <%= favicon_link_tag asset_path('images/govuk-apple-touch-icon-152x152.png'), rel: 'apple-touch-icon', type: 'image/png', size: '152x152' %>
+    <%= favicon_link_tag asset_path('images/govuk-apple-touch-icon-167x167.png'), rel: 'apple-touch-icon', type: 'image/png', size: '167x167' %>
+    <%= favicon_link_tag asset_path('images/govuk-apple-touch-icon-180x180.png'), rel: 'apple-touch-icon', type: 'image/png', size: '180x180' %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+  </head>
+
+  <body class="govuk-template__body">
+    <script>
+      document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+    </script>
+
+    <%= govuk_skip_link %>
+
+    <%= govuk_header(service_name: "GOV.UK Rails Boilerplate") do |header| %>
+      <%= header.navigation_item(text: "Navigation item 1", href: "#", active: true) %>
+      <%= header.navigation_item(text: "Navigation item 2", href: "#") %>
+      <%= header.navigation_item(text: "Navigation item 3", href: "#") %>
+    <% end %>
+
+    <div class="govuk-width-container">
+      <main class="govuk-main-wrapper" id="main-content" role="main">
+        <%= yield %>
+      </main>
+    </div>
+
+    <%= govuk_footer %>
+  </body>
+</html>

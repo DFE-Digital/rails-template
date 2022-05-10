@@ -36,3 +36,11 @@ rails new                                                                       
   -m https://raw.githubusercontent.com/DFE-Digital/rails-template/main/template.rb \
   blog
 ```
+
+To apply the template to an existing project, importing any improvements made
+to the template in the meantime (will ask to overwrite diverging files, choose
+Y/N as appropriate):
+
+```sh
+bin/rails app:template LOCATION=https://raw.githubusercontent.com/DFE-Digital/rails-template/main/template.rb
+```
