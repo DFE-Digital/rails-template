@@ -42,9 +42,9 @@ def create_bin_dev
   file(
     "bin/dev",
     <<~SH
-      #!/usr/bin/env bash
+      #!/usr/bin/env sh
 
-      foreman start -f Procfile.dev
+      bin/bundle exec foreman start -f Procfile.dev
     SH
   )
 
