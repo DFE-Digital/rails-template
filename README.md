@@ -24,10 +24,11 @@ This is an application template for starting Ruby on Rails applications with GOV
 
 ## Example use
 
-To generate a new application called `blog` (accept all overwritten files):
+To generate a new application called `blog`:
 
 ```sh
 rails new                                                                          \
+  --force                                                                          \
   --skip-bundle                                                                    \
   --skip-jbuilder                                                                  \
   --skip-test                                                                      \
