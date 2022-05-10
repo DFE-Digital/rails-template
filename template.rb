@@ -21,6 +21,8 @@ def apply_template!
 
   setup_yarn
 
+  add_adrs
+
   after_bundle do
     initialize_git
   end
@@ -148,6 +150,13 @@ def create_bin_bundle
   template('bin/bundle')
 
   chmod "bin/bundle", "+x"
+end
+
+def add_adrs
+  return say('ADRs already supported, skipping') if file_contains?('Gemfile', 'rladr')
+  return unless yes?('Add `rladr` for Architecture Decision Record (ADR) support? y/N')
+
+  apply 'adr/template.rb'
 end
 
 apply_template!
