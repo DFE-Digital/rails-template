@@ -18,10 +18,12 @@ def apply_template!
   initialize_formbuilder
 
   add_pages_controller
+  add_en_yml
 
   setup_yarn
 
   add_adrs
+  add_error_pages
 
   setup_asdf
 
@@ -166,6 +168,17 @@ def setup_asdf
   return unless yes?('Add [asdf](https://asdf-vm.com/) for Ruby/Node/Yarn versioning support? y/N')
 
   apply 'templates/asdf.rb'
+end
+
+def add_en_yml
+  template('config/locales/en.yml') if file_contains?('config/locales/en.yml', 'Hello world')
+end
+
+def add_error_pages
+  return say('Error pages already added, skipping') if file_exists?('app/controllers/errors_controller.rb')
+  return unless yes?('Add GOV.UK styled error pages? y/N')
+
+  apply 'templates/errors.rb'
 end
 
 apply_template!

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="govuk-template">
   <head>
-    <title>GOV.UK Frontend on Rails</title>
+    <title><%%= [yield(:page_title).presence, t('service.name')].compact.join(' - ') %></title>
 
     <%%= csrf_meta_tags %>
     <%%= csp_meta_tag %>
