@@ -23,6 +23,8 @@ def apply_template!
 
   add_adrs
 
+  setup_asdf
+
   after_bundle do
     initialize_git
   end
@@ -157,6 +159,13 @@ def add_adrs
   return unless yes?('Add `rladr` for Architecture Decision Record (ADR) support? y/N')
 
   apply 'adr/template.rb'
+end
+
+def setup_asdf
+  return say('asdf already setup, skipping') if file_exists?('.tool-versions')
+  return unless yes?('Add [asdf](https://asdf-vm.com/) for Ruby/Node/Yarn versioning support? y/N')
+
+  apply 'templates/asdf.rb'
 end
 
 apply_template!
