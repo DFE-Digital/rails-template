@@ -1,5 +1,51 @@
 fail("Rails 7.0.0 or greater is required") if Rails.version <= "7"
 
+def apply_template!
+  add_template_repository_to_source_path
+
+  install_gems
+
+  create_procfile
+  create_bin_dev
+  create_bin_bundle
+  create_manifest_js
+  create_package_json
+  create_application_scss
+  create_application_js
+  create_application_html_erb
+
+  initialize_rspec
+  initialize_formbuilder
+
+  add_pages_controller
+
+  setup_yarn
+
+  after_bundle do
+    initialize_git
+  end
+end
+
+# Taken from https://github.com/mattbrictson/rails-template/blob/215a87d00ff2b2a656be3ebd277e7f71607f5d49/template.rb#L99
+def add_template_repository_to_source_path
+  if __FILE__ =~ %r{\Ahttps?://}
+    require "tmpdir"
+    source_paths.unshift(tempdir = Dir.mktmpdir("rails-template-"))
+    at_exit { FileUtils.remove_entry(tempdir) }
+    git clone: [
+      "--quiet",
+      "https://github.com/DFE-Digital/rails-template.git",
+      tempdir
+    ].map(&:shellescape).join(" ")
+
+    if (branch = __FILE__[%r{rails-template/(.+)/template.rb}, 1])
+      Dir.chdir(tempdir) { git checkout: branch }
+    end
+  else
+    source_paths.unshift(File.dirname(__FILE__))
+  end
+end
+
 def file_exists?(file)
   File.exist?(file)
 end
@@ -8,10 +54,6 @@ def file_contains?(file, contains)
   return false unless file_exists?(file)
 
   File.foreach(file).any? { |line| line.include?(contains) }
-end
-
-def read_template(path)
-  File.read(File.join(__dir__, 'tmpl', path))
 end
 
 def install_gems
@@ -28,35 +70,35 @@ def install_gems
 end
 
 def create_procfile
-  file("Procfile.dev", read_template('Procfile.dev'))
+  template('Procfile.dev')
 end
 
 def create_bin_dev
-  file("bin/dev", read_template('bin_dev.sh'))
+  template('bin/dev')
 
   chmod "bin/dev", "+x"
 end
 
 def create_manifest_js
-  file("app/assets/config/manifest.js", read_template('manifest.js'))
+  template('app/assets/config/manifest.js')
 end
 
 def create_package_json
-  file("package.json", read_template('package.json'))
+  template('package.json')
 end
 
 def create_application_scss
   remove_file("app/assets/stylesheets/application.css")
 
-  file("app/assets/stylesheets/application.scss", read_template('application.scss'))
+  template('app/assets/stylesheets/application.scss')
 end
 
 def create_application_js
-  file("app/javascript/application.js", read_template('application.js'))
+  template('app/javascript/application.js')
 end
 
 def create_application_html_erb
-  file("app/views/layouts/application.html.erb", read_template('application.html.erb'))
+  template('app/views/layouts/application.html.erb')
 end
 
 def add_pages_controller
@@ -65,7 +107,7 @@ def add_pages_controller
   generate("controller", "pages", "home", "--skip-routes")
   route("root to: 'pages#home'") unless file_contains?("config/routes.rb", "root to:")
 
-  file("app/views/pages/home.html.erb", read_template('home.html.erb'), force: true)
+  template('app/views/pages/home.html.erb', force: true)
 end
 
 def initialize_rspec
@@ -81,7 +123,7 @@ def initialize_formbuilder
     after: "class ApplicationController < ActionController::Base\n"
   )
 
-  file("config/initializers/govuk_formbuilder.rb", read_template('govuk_formbuilder.rb'))
+  template('config/initializers/govuk_formbuilder.rb')
 end
 
 def setup_yarn
@@ -91,7 +133,7 @@ def setup_yarn
 end
 
 def initialize_git
-  append_to_file(".gitignore", read_template('.gitignore'))
+  template('gitignore', '.gitignore')
 
   git(:init)
   git(add: ".")
@@ -103,29 +145,9 @@ def initialize_git
 end
 
 def create_bin_bundle
-  file("bin/bundle", read_template('bin_bundle.rb'))
+  template('bin/bundle')
 
   chmod "bin/bundle", "+x"
 end
 
-install_gems
-
-create_procfile
-create_bin_dev
-create_bin_bundle
-create_manifest_js
-create_package_json
-create_application_scss
-create_application_js
-create_application_html_erb
-
-initialize_rspec
-initialize_formbuilder
-
-add_pages_controller
-
-setup_yarn
-
-after_bundle do
-  initialize_git
-end
+apply_template!
