@@ -8,7 +8,6 @@ def apply_template!
   create_procfile
   create_bin_dev
   create_bin_bundle
-  delete_manifest_js
   create_package_json
   create_application_scss
   create_application_js
@@ -74,18 +73,6 @@ def install_gems
     gem "rspec-rails"
   end unless file_contains?("Gemfile", 'rspec-rails')
 
-  gsub_file(
-    'Gemfile',
-    /original asset pipeline/,
-    'newer and simpler asset pipeline'
-  ) if file_contains?("Gemfile", "original asset pipeline")
-
-  gsub_file(
-    'Gemfile',
-    /sprockets-rails/,
-    'propshaft'
-  ) if file_contains?("Gemfile", "sprockets-rails")
-
   run "bundle --quiet"
 end
 
@@ -97,10 +84,6 @@ def create_bin_dev
   template('bin/dev')
 
   chmod "bin/dev", "+x"
-end
-
-def delete_manifest_js
-  remove_file('app/assets/config/manifest.js')
 end
 
 def create_package_json
