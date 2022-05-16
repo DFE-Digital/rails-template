@@ -16,11 +16,7 @@ This is an application template for starting Ruby on Rails applications with GOV
 - [NodeJS 18.x](https://nodejs.org/en/)
 - [Yarn 1.22.x](https://yarnpkg.com/)
 - [Foreman](https://github.com/ddollar/foreman)
-
-## Things that will be added soon
-
-- a Dockerfile
-- GOV.UK PaaS config
+- Postgres 13.x
 
 ## Example use
 

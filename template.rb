@@ -19,6 +19,7 @@ def apply_template!
 
   add_pages_controller
   add_en_yml
+  add_docker
 
   setup_yarn
 
@@ -183,6 +184,11 @@ end
 
 def add_en_yml
   template('config/locales/en.yml') if file_contains?('config/locales/en.yml', 'Hello world')
+end
+
+def add_docker
+  template('Dockerfile')
+  template('dockerignore', '.dockerignore')
 end
 
 def setup_error_pages
