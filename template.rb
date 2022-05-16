@@ -8,7 +8,7 @@ def apply_template!
   create_procfile
   create_bin_dev
   create_bin_bundle
-  create_manifest_js
+  delete_manifest_js
   create_package_json
   create_application_scss
   create_application_js
@@ -16,6 +16,7 @@ def apply_template!
 
   initialize_rspec
   initialize_formbuilder
+  initialize_govuk_frontend_assets
 
   add_pages_controller
   add_en_yml
@@ -72,6 +73,18 @@ def install_gems
     gem "rspec-rails"
   end unless file_contains?("Gemfile", 'rspec-rails')
 
+  gsub_file(
+    'Gemfile',
+    /original asset pipeline/,
+    'newer and simpler asset pipeline'
+  ) if file_contains?("Gemfile", "original asset pipeline")
+
+  gsub_file(
+    'Gemfile',
+    /sprockets-rails/,
+    'propshaft'
+  ) if file_contains?("Gemfile", "sprockets-rails")
+
   run "bundle install"
 end
 
@@ -85,8 +98,8 @@ def create_bin_dev
   chmod "bin/dev", "+x"
 end
 
-def create_manifest_js
-  template('app/assets/config/manifest.js')
+def delete_manifest_js
+  remove_file('app/assets/config/manifest.js')
 end
 
 def create_package_json
@@ -130,6 +143,18 @@ def initialize_formbuilder
   )
 
   template('config/initializers/govuk_formbuilder.rb')
+end
+
+def initialize_govuk_frontend_assets
+  return if file_contains?("config/application.rb", "govuk-frontend")
+
+  insert_into_file(
+    'config/application.rb',
+    "\nconfig.assets.paths << Rails.root.join('node_modules/govuk-frontend/govuk/assets')\n".indent(4),
+    before: "  end\nend"
+  )
+
+  remove_file("config/initializers/assets.rb")
 end
 
 def setup_yarn

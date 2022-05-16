@@ -1,13 +1,21 @@
-# Frontend artifacts and libs
-app/assets/builds/*
-node_modules
-
-# Platform/IDE-specific settings
+!app/assets/builds/.keep
+!log/.keep
+!tmp/.keep
+!tmp/pids/
+!tmp/pids/.keep
+*.log
 .DS_Store
+.bundle
+.env
+.env.local
+.envrc
 .idea
 .vscode
-
-# Local env settings
-.env
-.envrc
-.env.local
+app/assets/builds/*
+config/master.key
+db/*.sqlite3
+log/*
+node_modules
+public/assets
+tmp/*
+tmp/pids/*

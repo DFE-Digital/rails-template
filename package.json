@@ -2,16 +2,12 @@
   "name": "app",
   "private": "true",
   "dependencies": {
-    "@hotwired/stimulus": "^3.0.1",
-    "@hotwired/turbo-rails": "^7.1.1",
     "govuk-frontend": "^4.0.1",
     "esbuild": "^0.14.23",
     "sass": "^1.49.8"
   },
   "scripts": {
     "build:css": "sass --embed-sources --quiet-deps --load-path=node_modules ./app/assets/stylesheets/application.scss ./app/assets/builds/application.css",
-    "build:js": "esbuild app/javascript/*.* --bundle --outdir=app/assets/builds",
-    "preinstall": "mkdir -p app/assets/builds/{fonts,images}",
-    "postinstall": "cp -R node_modules/govuk-frontend/govuk/assets/fonts/. app/assets/builds/fonts && cp -R node_modules/govuk-frontend/govuk/assets/images/. app/assets/builds/images"
+    "build:js": "esbuild app/javascript/*.* --bundle --outdir=app/assets/builds"
   }
 }
