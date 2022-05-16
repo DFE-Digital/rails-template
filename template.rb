@@ -6,9 +6,7 @@ def apply_template!
   install_gems
 
   create_procfile
-  create_bin_dev
   create_bin_bundle
-  create_package_json
   create_application_scss
   create_application_js
   create_application_html_erb
@@ -79,16 +77,6 @@ end
 
 def create_procfile
   template('Procfile.dev')
-end
-
-def create_bin_dev
-  template('bin/dev')
-
-  chmod "bin/dev", "+x"
-end
-
-def create_package_json
-  template('package.json')
 end
 
 def create_application_scss
