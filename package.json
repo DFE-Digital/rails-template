@@ -7,7 +7,7 @@
     "sass": "^1.49.8"
   },
   "scripts": {
-    "build:css": "sass --embed-sources --quiet-deps --load-path=node_modules ./app/assets/stylesheets/application.scss ./app/assets/builds/application.css",
-    "build:js": "esbuild app/javascript/*.* --bundle --outdir=app/assets/builds"
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
+    "build:css": "sass --embed-sources --quiet-deps --load-path=node_modules ./app/assets/stylesheets/application.scss ./app/assets/builds/application.css"
   }
 }
