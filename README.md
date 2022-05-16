@@ -27,13 +27,19 @@ This is an application template for starting Ruby on Rails applications with GOV
 To generate a new application called `blog`:
 
 ```sh
-rails new                                                                          \
-  --force                                                                          \
-  --skip-bundle                                                                    \
-  --skip-jbuilder                                                                  \
-  --skip-test                                                                      \
-  --skip-action-text                                                               \
-  --skip-action-mail{er,box}                                                       \
+rails new \
+  --force \
+  --database=postgresql \
+  --skip-bundle \
+  --skip-git \
+  --skip-jbuilder \
+  --skip-hotwire \
+  --skip-action-mailbox \
+  --skip-action-mailer \
+  --skip-action-text \
+  --asset-pipeline=propshaft \
+  --javascript=esbuild \
+  --css=sass \
   -m https://raw.githubusercontent.com/DFE-Digital/rails-template/main/template.rb \
   blog
 ```
