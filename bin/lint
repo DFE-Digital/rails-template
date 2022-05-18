@@ -1,0 +1,4 @@
+#!/bin/sh
+
+bin/bundle exec rubocop --auto-correct-all
+yarn prettier --write --ignore-unknown '**/*'
