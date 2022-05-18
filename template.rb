@@ -23,10 +23,10 @@ def apply_template!
 
   setup_yarn
 
-  add_adrs
-  add_error_pages
-
+  setup_adrs
+  setup_error_pages
   setup_asdf
+  setup_solargraph
 
   after_bundle do
     initialize_git
@@ -85,7 +85,7 @@ def install_gems
     'propshaft'
   ) if file_contains?("Gemfile", "sprockets-rails")
 
-  run "bundle install"
+  run "bundle --quiet"
 end
 
 def create_procfile
@@ -160,7 +160,7 @@ end
 def setup_yarn
   empty_directory "app/assets/builds"
 
-  run "yarn"
+  run "yarn --silent"
 end
 
 def initialize_git
@@ -181,8 +181,9 @@ def create_bin_bundle
   chmod "bin/bundle", "+x"
 end
 
-def add_adrs
-  return say('ADRs already supported, skipping') if file_contains?('Gemfile', 'rladr')
+def setup_adrs
+  return say('ADRs already setup, skipping') if file_contains?('Gemfile', 'rladr')
+  say("\n=== Architecture Decision Records (ADRs) ===")
   return unless yes?('Add `rladr` for Architecture Decision Record (ADR) support? y/N')
 
   apply 'adr/template.rb'
@@ -190,7 +191,8 @@ end
 
 def setup_asdf
   return say('asdf already setup, skipping') if file_exists?('.tool-versions')
-  return unless yes?('Add [asdf](https://asdf-vm.com/) for Ruby/Node/Yarn versioning support? y/N')
+  say("\n=== `asdf-vm` https://asdf-vm.com/ ===")
+  return unless yes?('Add `asdf` for Ruby/Node/Yarn versioning support? y/N')
 
   apply 'templates/asdf.rb'
 end
@@ -199,11 +201,20 @@ def add_en_yml
   template('config/locales/en.yml') if file_contains?('config/locales/en.yml', 'Hello world')
 end
 
-def add_error_pages
-  return say('Error pages already added, skipping') if file_exists?('app/controllers/errors_controller.rb')
+def setup_error_pages
+  return say('Error pages already setup, skipping') if file_exists?('app/controllers/errors_controller.rb')
+  say("\n=== GOV.UK styled error pages ===")
   return unless yes?('Add GOV.UK styled error pages? y/N')
 
   apply 'templates/errors.rb'
+end
+
+def setup_solargraph
+  return say('solargraph already setup, skipping') if file_exists?('.solargraph.yml')
+  say("\n=== solargraph https://solargraph.org/ ===")
+  return unless yes?('Add solargraph for Ruby intellisense support? y/N')
+
+  apply 'templates/solargraph.rb'
 end
 
 apply_template!

@@ -4,7 +4,7 @@ inject_into_file(
   after: "group :development do\n"
 )
 
-run "bin/bundle"
+run "bin/bundle --quiet"
 
 run "bin/bundle exec rladr init adr"
 
