@@ -12,7 +12,7 @@ This is an application template for starting Ruby on Rails applications with GOV
 ## Requirements
 
 - Rails 7.0.x
-- Ruby 3.1.x
+- Ruby 3.1.1
 - [NodeJS 18.x](https://nodejs.org/en/)
 - [Yarn 1.22.x](https://yarnpkg.com/)
 - [Foreman](https://github.com/ddollar/foreman)
