@@ -4,8 +4,8 @@ def apply_template!
   add_template_repository_to_source_path
 
   install_gems
+  initialize_package_json
 
-  create_procfile
   create_bin_bundle
   create_application_scss
   create_application_js
@@ -75,14 +75,10 @@ def install_gems
   run "bundle --quiet"
 end
 
-def create_procfile
-  template('Procfile.dev')
-end
-
 def create_application_scss
   remove_file("app/assets/stylesheets/application.css")
 
-  template('app/assets/stylesheets/application.scss')
+  template('app/assets/stylesheets/application.sass.scss')
 end
 
 def create_application_js
@@ -100,6 +96,18 @@ def add_pages_controller
   route("root to: 'pages#home'") unless file_contains?("config/routes.rb", "root to:")
 
   template('app/views/pages/home.html.erb', force: true)
+end
+
+def initialize_package_json
+  return if file_contains?('package.json', 'esbuild')
+  run "rails css:install:sass"
+  run "rails javascript:install:esbuild"
+
+  gsub_file(
+    'package.json',
+    /--load-path=node_modules/,
+    '--load-path=node_modules --quiet-deps'
+  )
 end
 
 def initialize_rspec
@@ -131,9 +139,7 @@ def initialize_govuk_frontend_assets
 end
 
 def setup_yarn
-  empty_directory "app/assets/builds"
-
-  run "yarn --silent"
+  run "yarn --silent add govuk-frontend@4.0.1"
 end
 
 def initialize_git
