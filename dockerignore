@@ -1,0 +1,16 @@
+*.log
+.byebug_history
+.env
+.git
+.github
+.yarn-integrity
+config/master.key
+log
+node_modules
+public/assets
+public/packs
+public/packs-test
+storage
+tmp
+vendor/cache
+yarn-debug.log*

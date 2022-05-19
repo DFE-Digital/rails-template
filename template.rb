@@ -6,10 +6,7 @@ def apply_template!
   install_gems
 
   create_procfile
-  create_bin_dev
   create_bin_bundle
-  delete_manifest_js
-  create_package_json
   create_application_scss
   create_application_js
   create_application_html_erb
@@ -20,6 +17,7 @@ def apply_template!
 
   add_pages_controller
   add_en_yml
+  add_docker
 
   setup_yarn
 
@@ -74,37 +72,11 @@ def install_gems
     gem "rspec-rails"
   end unless file_contains?("Gemfile", 'rspec-rails')
 
-  gsub_file(
-    'Gemfile',
-    /original asset pipeline/,
-    'newer and simpler asset pipeline'
-  ) if file_contains?("Gemfile", "original asset pipeline")
-
-  gsub_file(
-    'Gemfile',
-    /sprockets-rails/,
-    'propshaft'
-  ) if file_contains?("Gemfile", "sprockets-rails")
-
   run "bundle --quiet"
 end
 
 def create_procfile
   template('Procfile.dev')
-end
-
-def create_bin_dev
-  template('bin/dev')
-
-  chmod "bin/dev", "+x"
-end
-
-def delete_manifest_js
-  remove_file('app/assets/config/manifest.js')
-end
-
-def create_package_json
-  template('package.json')
 end
 
 def create_application_scss
@@ -200,6 +172,11 @@ end
 
 def add_en_yml
   template('config/locales/en.yml') if file_contains?('config/locales/en.yml', 'Hello world')
+end
+
+def add_docker
+  template('Dockerfile')
+  template('dockerignore', '.dockerignore')
 end
 
 def setup_error_pages
