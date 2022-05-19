@@ -24,8 +24,8 @@ def apply_template!
   setup_adrs
   setup_error_pages
   setup_asdf
-  setup_solargraph
   setup_linting
+  setup_solargraph # Needs to come after linting
 
   after_bundle do
     initialize_git
@@ -187,20 +187,20 @@ def setup_error_pages
   apply 'templates/errors.rb'
 end
 
+def setup_linting
+  return say('linting already setup, skipping') if file_exists?('.rubocop.yml')
+  say("\n=== Rubocop and prettier ===")
+  return unless yes?('Add govuk-rubocop and Prettier for linting/formatting? y/N')
+
+  apply 'templates/linting.rb'
+end
+
 def setup_solargraph
   return say('solargraph already setup, skipping') if file_exists?('.solargraph.yml')
   say("\n=== solargraph https://solargraph.org/ ===")
   return unless yes?('Add solargraph for Ruby intellisense support? y/N')
 
   apply 'templates/solargraph.rb'
-end
-
-def setup_linting
-  return say('linting already setup, skipping') if file_exists?('.rubocop.yml')
-  say("\n=== Rubocop and prettier ===")
-  return unless yes?('Add govuk-rubocop and Prettier for linting/formatting? y/N')
-
-  apply 'templates/linting.md'
 end
 
 apply_template!
