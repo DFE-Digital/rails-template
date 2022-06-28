@@ -10,6 +10,10 @@ class ErrorsController < ApplicationController
     render 'unprocessable_entity', status: :unprocessable_entity
   end
 
+  def too_many_requests
+    render 'too_many_requests', status: :too_many_requests
+  end
+
   def internal_server_error
     render 'internal_server_error', status: :internal_server_error
   end
