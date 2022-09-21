@@ -145,7 +145,7 @@ end
 def initialize_git
   template('gitignore', '.gitignore')
 
-  git(:init)
+  git(init: "--initial-branch=main")
   git(add: ".")
   git(commit: <<~COMMIT)
     -m "Initial commit
