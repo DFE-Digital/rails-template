@@ -1,11 +1,15 @@
-AllCops:
-  NewCops: enable
+inherit_gem:
+  rubocop-govuk:
+    - config/default.yml
+    - config/rails.yml
 
-Style/StringLiterals:
-  Enabled: false
-Style/FrozenStringLiteralComment:
-  Enabled: false
-Style/SignalException:
-  Enabled: false
-Metrics/MethodLength:
-  Enabled: false
+inherit_from:
+  - node_modules/@prettier/plugin-ruby/rubocop.yml
+
+inherit_mode:
+  merge:
+    - Exclude
+
+Style/NumericLiterals:
+  Exclude:
+    - db/schema.rb
