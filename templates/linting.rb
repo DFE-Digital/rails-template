@@ -1,6 +1,7 @@
 template '.rubocop.yml'
 template '.prettierignore'
 template 'bin/lint'
+chmod "bin/lint", "+x"
 
 inject_into_file(
   "Gemfile",
