@@ -180,7 +180,7 @@ def setup_adrs
   say("\n=== Architecture Decision Records (ADRs) ===")
   return unless yes?('Add `rladr` for Architecture Decision Record (ADR) support? y/N')
 
-  apply 'adr/template.rb'
+  apply 'templates/adr.rb'
 end
 
 def add_en_yml
