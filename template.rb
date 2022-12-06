@@ -3,6 +3,8 @@ fail("Rails 7.0.0 or greater is required") if Rails.version <= "7"
 def apply_template!
   add_template_repository_to_source_path
 
+  setup_asdf
+
   install_gems
   initialize_package_json
 
@@ -24,7 +26,6 @@ def apply_template!
 
   setup_adrs
   setup_error_pages
-  setup_asdf
   setup_linting
   setup_solargraph # Needs to come after linting
 
@@ -166,20 +167,20 @@ def create_bin_bundle
   chmod "bin/bundle", "+x"
 end
 
-def setup_adrs
-  return say('ADRs already setup, skipping') if file_contains?('Gemfile', 'rladr')
-  say("\n=== Architecture Decision Records (ADRs) ===")
-  return unless yes?('Add `rladr` for Architecture Decision Record (ADR) support? y/N')
-
-  apply 'adr/template.rb'
-end
-
 def setup_asdf
   return say('asdf already setup, skipping') if file_exists?('.tool-versions')
   say("\n=== `asdf-vm` https://asdf-vm.com/ ===")
   return unless yes?('Add `asdf` for Ruby/Node/Yarn versioning support? y/N')
 
   apply 'templates/asdf.rb'
+end
+
+def setup_adrs
+  return say('ADRs already setup, skipping') if file_contains?('Gemfile', 'rladr')
+  say("\n=== Architecture Decision Records (ADRs) ===")
+  return unless yes?('Add `rladr` for Architecture Decision Record (ADR) support? y/N')
+
+  apply 'adr/template.rb'
 end
 
 def add_en_yml
