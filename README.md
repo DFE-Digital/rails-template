@@ -36,12 +36,40 @@ makes starting a new GOV.UK Rails project fast and fun.
 
 ## Requirements
 
-- Rails 7.0.x
 - Ruby 3.1.2
-- [NodeJS 18.x](https://nodejs.org/en/)
-- [Yarn 1.22.x](https://yarnpkg.com/)
+- Rails 7.0.x
 - [Foreman](https://github.com/ddollar/foreman)
+
+### Tools optionally installed by asdf
+
+The following tools will be installed by `asdf` if it is enabled during the
+setup process (see: [How to setup a new project](#how-to-setup-a-new-project)).
+
+- [NodeJS 18.x](https://nodejs.org/en/) (installed using `asdf`)
+- [Yarn 1.22.x](https://yarnpkg.com/)
 - Postgres 13.x
+
+If `asdf` is not used, ensure these are available and in your path. You can check this with: 
+
+``` sh
+$ ruby --version
+ruby 3.1.2p20 (2022-04-12 revision 4491bb740a) [arm64-darwin22]
+
+$ rails --version
+Rails 7.0.4
+
+$ node --version
+v18.1.0
+
+$ yarn --version
+1.22.19
+
+$ foreman --version
+0.87.2
+
+$ pg_config --version
+PostgreSQL 13.5
+```
 
 ## How to setup a new project
 
