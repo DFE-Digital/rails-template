@@ -167,12 +167,26 @@ def create_bin_bundle
   chmod "bin/bundle", "+x"
 end
 
+
+def get_tools_version_of(tool_name)
+  File.readlines(".tool-versions")
+    .map(&:split)
+    .find { |tool, version| tool == tool_name }
+    .at(1)
+end
+
 def setup_asdf
   return say('asdf already setup, skipping') if file_exists?('.tool-versions')
   say("\n=== `asdf-vm` https://asdf-vm.com/ ===")
   return unless yes?('Add `asdf` for Ruby/Node/Yarn versioning support? y/N')
 
   apply 'templates/asdf.rb'
+
+  # bundle changes directory before installing gems, which means the asdf shim
+  # won't know which version of postgres we want and the 'pg' gem will fail to
+  # install, later. Setting the env var ensures asdf picks up the right version of
+  # postgres.
+  ENV["ASDF_POSTGRES_VERSION"] = get_tools_version_of("postgres")
 end
 
 def setup_adrs
