@@ -24,10 +24,10 @@ def apply_template!
 
   setup_yarn
 
-  setup_adrs
   setup_error_pages
   setup_linting
   setup_solargraph # Needs to come after linting
+  setup_adrs # Put last for correct ordering in README
 
   after_bundle do
     initialize_git
