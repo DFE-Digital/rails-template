@@ -1,6 +1,12 @@
 template('tool-versions', '.tool-versions')
 template('ruby-version', '.ruby-version')
 
+run "asdf plugin add ruby || true"
+run "asdf plugin add nodejs || true"
+run "asdf plugin add yarn || true"
+run "asdf plugin add postgres || true"
+run "asdf install"
+
 append_to_file(
   'README.md',
   <<~MD
