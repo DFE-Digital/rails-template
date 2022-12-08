@@ -79,14 +79,17 @@ end
 def create_application_scss
   remove_file("app/assets/stylesheets/application.css")
 
+  remove_file('app/assets/stylesheets/application.sass.scss', verbose: false)
   template('app/assets/stylesheets/application.sass.scss')
 end
 
 def create_application_js
+  remove_file('app/javascript/application.js', verbose: false)
   template('app/javascript/application.js')
 end
 
 def create_application_html_erb
+  remove_file('app/views/layouts/application.html.erb', verbose: false)
   template('app/views/layouts/application.html.erb')
 end
 
@@ -183,7 +186,9 @@ def setup_asdf
 end
 
 def add_en_yml
-  template('config/locales/en.yml') if file_contains?('config/locales/en.yml', 'Hello world')
+  return unless file_contains?('config/locales/en.yml', 'Hello world')
+  remove_file('config/locales/en.yml', verbose: false)
+  template('config/locales/en.yml')
 end
 
 def add_docker
