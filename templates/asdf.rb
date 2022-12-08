@@ -1,5 +1,4 @@
 template('tool-versions', '.tool-versions')
-template('ruby-version', '.ruby-version')
 
 run "asdf plugin add ruby || true"
 run "asdf plugin add nodejs || true"
