@@ -176,9 +176,11 @@ def get_tools_version_of(tool_name)
 end
 
 def setup_asdf
-  return say('asdf already setup, skipping') if file_exists?('.tool-versions')
-  say("\n=== `asdf-vm` https://asdf-vm.com/ ===")
-  return unless yes?('Add `asdf` for Ruby/Node/Yarn versioning support? y/N')
+  unless file_exists?('.tool-versions')
+    say("\n=== `asdf-vm` https://asdf-vm.com/ ===")
+
+    return unless yes?('Add `asdf` for Ruby/Node/Yarn versioning support? y/N')
+  end
 
   apply 'templates/asdf.rb'
 
