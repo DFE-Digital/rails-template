@@ -11,7 +11,7 @@ postgres_version = get_tools_version_of("postgres")
 append_to_file(
   'README.md',
   <<~MD
-    ## Setup
+    ### asdf
 
     This project uses `asdf`. Use the following to install the required tools:
 
