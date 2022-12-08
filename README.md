@@ -77,7 +77,6 @@ To create a new application called `apply-for-a-juggling-licence`:
 
 ```sh
 rails new \
-  --force \
   --database=postgresql \
   --skip-bundle \
   --skip-git \
