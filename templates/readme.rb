@@ -6,9 +6,9 @@ append_to_file(
 
     ## Setup
 
-    ### PreRequisites
+    ### Prerequisites
 
-    This project depend on:
+    This project depends on:
 
       - [Ruby](https://www.ruby-lang.org/)
       - [Ruby on Rails](https://rubyonrails.org/)
