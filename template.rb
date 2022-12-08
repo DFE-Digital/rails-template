@@ -3,6 +3,8 @@ fail("Rails 7.0.0 or greater is required") if Rails.version <= "7"
 def apply_template!
   add_template_repository_to_source_path
 
+  setup_readme
+
   setup_asdf
 
   install_gems
@@ -189,6 +191,10 @@ def setup_asdf
   # install, later. Setting the env var ensures asdf picks up the right version of
   # postgres.
   ENV["ASDF_POSTGRES_VERSION"] = get_tools_version_of("postgres")
+end
+
+def setup_readme
+  apply 'templates/readme.rb'
 end
 
 def setup_adrs
