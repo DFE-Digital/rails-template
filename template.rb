@@ -71,7 +71,7 @@ def install_gems
   gem "govuk_design_system_formbuilder" unless
     file_contains?("Gemfile", "govuk_design_system_formbuilder")
 
-  gem_group :test do
+  gem_group :test, :development do
     gem "rspec"
     gem "rspec-rails"
   end unless file_contains?("Gemfile", 'rspec-rails')
