@@ -4,6 +4,7 @@ def apply_template!
   add_template_repository_to_source_path
 
   setup_readme
+  setup_dependabot
 
   setup_asdf
 
@@ -241,6 +242,10 @@ def setup_solargraph
   return unless yes?('Add solargraph for Ruby intellisense support? y/N')
 
   apply 'templates/solargraph.rb'
+end
+
+def setup_dependabot
+  template('dependabot.yml', '.github/dependabot.yml')
 end
 
 apply_template!
