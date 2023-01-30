@@ -7,7 +7,7 @@ makes starting a new GOV.UK Rails project fast and fun.
 
 ## What's included
 
-- [GOV.UK Frontend](https://github.com/alphagov/govuk-frontend)
+- [GOV.UK Frontend 4.4.1](https://github.com/alphagov/govuk-frontend)
 - [GOV.UK Components](https://govuk-components.netlify.app/)
 - [GOV.UK Form Builder](https://govuk-form-builder.netlify.app/)
 - [RSpec](https://rspec.info/)
