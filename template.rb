@@ -152,7 +152,7 @@ def initialize_govuk_frontend_assets
 end
 
 def setup_yarn
-  run "yarn --silent add govuk-frontend@4.0.1"
+  run "yarn --silent add govuk-frontend@4.4.1"
 end
 
 def initialize_git
