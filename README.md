@@ -133,3 +133,10 @@ bin/rails app:template LOCATION=https://raw.githubusercontent.com/DFE-Digital/ra
 The script will ask to overwrite diverging files; press the `d` key to see the
 diffs for each file, and choose accordingly. You might have to make some
 changes yourself if you've overriden certain files, like the layout.
+
+### Support
+
+The DfE Rails template is a community resource. It is supported by
+@DfE-Digital. If you run into any problems using it or have ideas for new
+features you can [raise an issue](https://github.com/DFE-Digital/rails-template/issues)
+or [ask questions on Slack](https://ukgovernmentdigital.slack.com/archives/CR51BN3HP).
