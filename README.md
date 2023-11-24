@@ -36,7 +36,7 @@ makes starting a new GOV.UK Rails project fast and fun.
 
 ## Requirements
 
-- Ruby 3.1.2
+- Ruby 3.2.2
 - Rails 7.0.x
 - [Foreman](https://github.com/ddollar/foreman)
 
@@ -53,7 +53,7 @@ If `asdf` is not used, ensure these are available and in your path. You can chec
 
 ``` sh
 $ ruby --version
-ruby 3.1.2p20 (2022-04-12 revision 4491bb740a) [arm64-darwin22]
+ruby 3.2.2 (2023-03-30 revision e51014f9c0) [x86_64-linux]
 
 $ rails --version
 Rails 7.0.4
