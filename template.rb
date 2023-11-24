@@ -152,7 +152,8 @@ def initialize_govuk_frontend_assets
 end
 
 def setup_yarn
-  run "yarn --silent add govuk-frontend@4.4.1"
+  run "yarn set version latest"
+  run "yarn --silent add govuk-frontend@4.7.0"
 end
 
 def initialize_git
