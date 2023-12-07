@@ -24,6 +24,7 @@ def apply_template!
   add_pages_controller
   add_en_yml
   add_docker
+  add_docker_compose
 
   setup_yarn
 
@@ -219,6 +220,10 @@ end
 def add_docker
   template('Dockerfile')
   template('dockerignore', '.dockerignore')
+end
+
+def add_docker_compose
+  apply 'templates/docker_compose.rb'
 end
 
 def setup_error_pages
