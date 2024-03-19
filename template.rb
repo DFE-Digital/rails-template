@@ -145,7 +145,7 @@ def initialize_govuk_frontend_assets
 
   insert_into_file(
     'config/application.rb',
-    "\nconfig.assets.paths << Rails.root.join('node_modules/govuk-frontend/govuk/assets')\n".indent(4),
+    "\nconfig.assets.paths << Rails.root.join('node_modules/govuk-frontend/dist/govuk/assets')\n".indent(4),
     before: "  end\nend"
   )
 
@@ -154,7 +154,7 @@ end
 
 def setup_yarn
   run "yarn set version latest"
-  run "yarn --silent add govuk-frontend@4.7.0"
+  run "yarn --silent add govuk-frontend@5.2.0"
 end
 
 def initialize_git
