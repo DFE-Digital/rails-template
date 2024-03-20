@@ -1,5 +1,5 @@
 unless file_exists?("config/initializers/semantic_logger.rb")
-  template("config/initializers/semantic_logger.rb") 
+  template("config/initializers/semantic_logger.rb")
 end
 
 gem_group :development, :production do
@@ -17,8 +17,8 @@ development_config = <<-RUBY
 RUBY
 
 insert_into_file(
-  "config/environments/development.rb", 
-  development_config, 
+  "config/environments/development.rb",
+  development_config,
   after: "Rails.application.configure do",
 ) unless file_contains?(
   "config/environments/development.rb",
@@ -34,8 +34,8 @@ production_config = <<-RUBY
 RUBY
 
 insert_into_file(
-  "config/environments/production.rb", 
-  production_config, 
+  "config/environments/production.rb",
+  production_config,
   after: "Rails.application.configure do",
 ) unless file_contains?(
   "config/environments/production.rb",
