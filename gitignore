@@ -6,6 +6,7 @@
 .envrc
 .idea
 .vscode
+.yarn
 config/master.key
 db/*.sqlite3
 node_modules
