@@ -6,7 +6,15 @@
 .envrc
 .idea
 .vscode
-.yarn
+
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 config/master.key
 db/*.sqlite3
 node_modules
