@@ -32,6 +32,7 @@ def apply_template!
   setup_linting
   setup_solargraph # Needs to come after linting
   setup_adrs # Put last for correct ordering in README
+  setup_semantic_logger
 
   after_bundle do
     initialize_git
@@ -252,6 +253,12 @@ end
 
 def setup_dependabot
   template('dependabot.yml', '.github/dependabot.yml')
+end
+
+def setup_semantic_logger
+  say("\n=== semantic logger https://logger.rocketjob.io/ ===")
+  return unless yes?('Add semantic logging for integration with kibana? y/N')
+  apply 'templates/semantic_logger.rb'
 end
 
 apply_template!
