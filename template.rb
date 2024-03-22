@@ -154,7 +154,9 @@ def initialize_govuk_frontend_assets
 end
 
 def setup_yarn
-  run "yarn set version latest"
+  apply 'templates/yarn.rb'
+
+  run "yarn set version stable"
   run "yarn --silent add govuk-frontend@5.2.0"
 end
 

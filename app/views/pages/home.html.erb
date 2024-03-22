@@ -18,6 +18,16 @@
               .dig("dependencies", "govuk-frontend")
               .tr("^", "")
           }
+        },
+        { key: {
+          text: "Yarn version" },
+          value: {
+            text: File
+              .read(Rails.root.join(".yarnrc.yml"))
+              .match(/releases\/yarn-(?<version>\d+\.\d+\.\d+)\.cjs/)
+              .named_captures
+              .fetch("version", "Problem retrieving Yarn version")
+          }
         }
       ]
     ) %>
