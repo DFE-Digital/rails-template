@@ -14,7 +14,7 @@ routes = <<-RUBY
   end
 RUBY
 
-insert_into_file('config/routes.rb', routes, before: 'end')
+insert_into_file('config/routes.rb', routes, before: /^end/)
 
 insert_into_file(
   'config/application.rb',
