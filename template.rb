@@ -157,7 +157,7 @@ def setup_yarn
   apply 'templates/yarn.rb'
 
   run "yarn set version stable"
-  run "yarn --silent add govuk-frontend@5.2.0"
+  run "yarn --silent add govuk-frontend@5.8.0"
 end
 
 def initialize_git
