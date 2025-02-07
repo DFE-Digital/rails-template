@@ -84,7 +84,6 @@ rails new \
   --skip-action-mailbox \
   --skip-action-mailer \
   --skip-action-text \
-  --asset-pipeline=propshaft \
   --javascript=esbuild \
   --css=sass \
   -m https://raw.githubusercontent.com/DFE-Digital/rails-template/main/template.rb \
