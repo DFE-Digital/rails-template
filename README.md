@@ -16,8 +16,7 @@ makes starting a new GOV.UK Rails project fast and fun.
   support](https://github.com/andrewaguiar/rladr)
 - (optional) GOV.UK styled error pages
 - (optional) [asdf](https://asdf-vm.com/) versioning
-- (optional) [solargraph](https://solargraph.org/) with bundled gem support and
-  [annotate](https://github.com/ctran/annotate_models)
+- (optional) [solargraph](https://solargraph.org/) with bundled gem support
 - (optional) Linting with
   [rubocop-govuk](https://github.com/alphagov/rubocop-govuk), formatting with
   [prettier/plugin-ruby](https://github.com/prettier/plugin-ruby)

@@ -2,15 +2,12 @@ template 'solargraph.yml', '.solargraph.yml'
 
 inject_into_file(
   "Gemfile",
-  "gem 'annotate', require: false\n" \
   "gem 'solargraph', require: false\n" \
   "gem 'solargraph-rails', require: false\n".indent(2),
   after: "group :development do\n"
 )
 
 run "bin/bundle --quiet"
-
-run "bin/rails generate annotate:install"
 
 append_to_file(
   'README.md',
