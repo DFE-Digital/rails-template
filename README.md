@@ -1,4 +1,4 @@
-# Rails 7 application template
+# Rails 8 application template
 
 [DFE-Digital/rails-template](https://guides.rubyonrails.org/rails_application_templates.html)
 is a [Rails application
@@ -23,7 +23,7 @@ makes starting a new GOV.UK Rails project fast and fun.
 
 ### What's improved from the [old boilerplate](https://github.com/DFE-Digital/govuk-rails-boilerplate)
 
-- :new: Ruby 3, Rails 7, and the template does not require us to manually merge
+- :new: Ruby 3, Rails 8, and the template does not require us to manually merge
   dependabot PRs or to keep Ruby/Rails up to date; that's handled by `rails new`!
 - :new: [rails/propshaft](https://github.com/rails/propshaft) asset pipeline
 - :new: [cssbundling](https://github.com/rails/cssbundling-rails) /
@@ -36,7 +36,7 @@ makes starting a new GOV.UK Rails project fast and fun.
 ## Requirements
 
 - Ruby 3.2.2
-- Rails 7.0.x
+- Rails 8.0.x
 - [Foreman](https://github.com/ddollar/foreman)
 
 ### Tools optionally installed by asdf
@@ -52,10 +52,10 @@ If `asdf` is not used, ensure these are available and in your path. You can chec
 
 ``` sh
 $ ruby --version
-ruby 3.2.2 (2023-03-30 revision e51014f9c0) [x86_64-linux]
+ruby ruby 3.4.2
 
 $ rails --version
-Rails 7.0.4
+Rails 8.0.2
 
 $ node --version
 v18.1.0
