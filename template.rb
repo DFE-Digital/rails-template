@@ -150,6 +150,18 @@ def initialize_govuk_frontend_assets
     before: "  end\nend"
   )
 
+  insert_into_file(
+    'config/application.rb',
+    "\nconfig.assets.paths << Rails.root.join('node_modules/govuk-frontend/dist/govuk/assets\fonts')\n".indent(4),
+    before: "  end\nend"
+  )
+
+  insert_into_file(
+    'config/application.rb',
+    "\nconfig.assets.paths << Rails.root.join('node_modules/govuk-frontend/dist/govuk/assets\images')\n".indent(4),
+    before: "  end\nend"
+  )
+
   remove_file("config/initializers/assets.rb")
 end
 
