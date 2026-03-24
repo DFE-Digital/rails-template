@@ -1,8 +1,6 @@
-inject_into_file(
-  "Gemfile",
-  "gem 'rladr'\n".indent(2),
-  after: "group :development do\n"
-)
+gem_group :development do
+  gem 'rladr'
+end
 
 run "bundle install --quiet"
 
