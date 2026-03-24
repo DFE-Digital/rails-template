@@ -9,13 +9,13 @@ def apply_template!
   setup_frontend
   setup_test_suite
 
-  create_application_scss
+  # create_application_scss moved to frontend
   add_quite_deps_for_sass
-  create_application_js
-  create_application_html_erb
+  # create_application_js moved to frontend
+  # create_application_html_erb moved to frontend
 
-  initialize_formbuilder
-  initialize_govuk_frontend_assets
+  # initialize_formbuilder moved to frontend
+  # initialize_govuk_frontend_assets moved to frontend
 
   add_pages_controller
   add_en_yml
@@ -73,23 +73,6 @@ def setup_test_suite
   apply 'templates/test_suite.rb'
 end
 
-def create_application_scss
-  remove_file("app/assets/stylesheets/application.css")
-
-  remove_file('app/assets/stylesheets/application.sass.scss', verbose: false)
-  template('app/assets/stylesheets/application.sass.scss')
-end
-
-def create_application_js
-  remove_file('app/javascript/application.js', verbose: false)
-  template('app/javascript/application.js')
-end
-
-def create_application_html_erb
-  remove_file('app/views/layouts/application.html.erb', verbose: false)
-  template('app/views/layouts/application.html.erb')
-end
-
 def add_pages_controller
   return if file_exists?("app/controllers/pages_controller.rb")
 
@@ -109,35 +92,10 @@ def add_quite_deps_for_sass
   )
 end
 
-def initialize_formbuilder
-  return if file_contains?("config/initializers/govuk_formbuilder.rb", "GOVUKDesignSystemFormBuilder")
-
-  inject_into_file(
-    "app/controllers/application_controller.rb",
-    "default_form_builder(GOVUKDesignSystemFormBuilder::FormBuilder)\n".indent(2),
-    after: "class ApplicationController < ActionController::Base\n"
-  )
-
-  template('config/initializers/govuk_formbuilder.rb')
-end
-
-def initialize_govuk_frontend_assets
-  return if file_contains?("config/application.rb", "govuk-frontend")
-
-  insert_into_file(
-    'config/application.rb',
-    "\nconfig.assets.paths << Rails.root.join('node_modules/govuk-frontend/dist/govuk/assets')\n".indent(4),
-    before: "  end\nend"
-  )
-
-  remove_file("config/initializers/assets.rb")
-end
-
 def setup_yarn
   apply 'templates/yarn.rb'
 
   run "yarn set version stable"
-  run "yarn --silent add govuk-frontend@5.11.1"
 end
 
 def initialize_git
