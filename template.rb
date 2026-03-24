@@ -6,8 +6,6 @@ def apply_template!
   setup_readme
   setup_dependabot
 
-  setup_asdf
-
   install_gems
   initialize_package_json
 
@@ -176,30 +174,6 @@ def create_bin_bundle
   template('bin/bundle')
 
   chmod "bin/bundle", "+x"
-end
-
-
-def get_tools_version_of(tool_name)
-  File.readlines(".tool-versions")
-    .map(&:split)
-    .find { |tool, version| tool == tool_name }
-    .at(1)
-end
-
-def setup_asdf
-  unless file_exists?('.tool-versions')
-    say("\n=== `asdf-vm` https://asdf-vm.com/ ===")
-
-    return unless yes?('Add `asdf` for Ruby/Node/Yarn versioning support? y/N')
-  end
-
-  apply 'templates/asdf.rb'
-
-  # bundle changes directory before installing gems, which means the asdf shim
-  # won't know which version of postgres we want and the 'pg' gem will fail to
-  # install, later. Setting the env var ensures asdf picks up the right version of
-  # postgres.
-  ENV["ASDF_POSTGRES_VERSION"] = get_tools_version_of("postgres")
 end
 
 def setup_readme
