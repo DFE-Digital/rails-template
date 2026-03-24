@@ -18,7 +18,7 @@ def apply_template!
   # initialize_govuk_frontend_assets moved to frontend
 
   # add_pages_controller moved to frontend
-  add_en_yml
+  # add_en_yml moved to govuk frontend
   add_docker
   add_docker_compose
 
@@ -111,12 +111,6 @@ def setup_adrs
   return unless yes?('Add `rladr` for Architecture Decision Record (ADR) support? y/N')
 
   apply 'templates/adr.rb'
-end
-
-def add_en_yml
-  return unless file_contains?('config/locales/en.yml', 'Hello world')
-  remove_file('config/locales/en.yml', verbose: false)
-  template('config/locales/en.yml')
 end
 
 def add_docker
