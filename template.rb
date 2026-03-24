@@ -6,14 +6,13 @@ def apply_template!
   setup_readme
   setup_dependabot
 
-  install_gems
-  initialize_package_json
+  setup_frontend
+  setup_test_suite
 
   create_application_scss
   create_application_js
   create_application_html_erb
 
-  initialize_rspec
   initialize_formbuilder
   initialize_govuk_frontend_assets
 
@@ -65,17 +64,14 @@ def file_contains?(file, contains)
   File.foreach(file).any? { |line| line.include?(contains) }
 end
 
-def install_gems
+def setup_frontend
   gem "govuk-components" unless file_contains?("Gemfile", "govuk-components")
   gem "govuk_design_system_formbuilder" unless
     file_contains?("Gemfile", "govuk_design_system_formbuilder")
+end
 
-  gem_group :test, :development do
-    gem "rspec"
-    gem "rspec-rails"
-  end unless file_contains?("Gemfile", 'rspec-rails')
-
-  run "bundle --quiet"
+def setup_test_suite
+  apply 'templates/test_suite.rb'
 end
 
 def create_application_scss
@@ -114,10 +110,6 @@ def initialize_package_json
     /--load-path=node_modules/,
     '--load-path=node_modules --quiet-deps'
   )
-end
-
-def initialize_rspec
-  generate("rspec:install") unless file_exists?(".rspec")
 end
 
 def initialize_formbuilder
