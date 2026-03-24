@@ -17,14 +17,14 @@ def apply_template!
   # initialize_formbuilder moved to frontend
   # initialize_govuk_frontend_assets moved to frontend
 
-  add_pages_controller
+  # add_pages_controller moved to frontend
   add_en_yml
   add_docker
   add_docker_compose
 
   setup_yarn
 
-  setup_error_pages
+  # setup_error_pages moved to frontend
   setup_linting
   setup_solargraph # Needs to come after linting
   setup_adrs # Put last for correct ordering in README
@@ -71,15 +71,6 @@ end
 
 def setup_test_suite
   apply 'templates/test_suite.rb'
-end
-
-def add_pages_controller
-  return if file_exists?("app/controllers/pages_controller.rb")
-
-  generate("controller", "pages", "home", "--skip-routes")
-  route("root to: 'pages#home'") unless file_contains?("config/routes.rb", "root to:")
-
-  template('app/views/pages/home.html.erb', force: true)
 end
 
 def add_quite_deps_for_sass
@@ -135,14 +126,6 @@ end
 
 def add_docker_compose
   apply 'templates/docker_compose.rb'
-end
-
-def setup_error_pages
-  return say('Error pages already setup, skipping') if file_exists?('app/controllers/errors_controller.rb')
-  say("\n=== GOV.UK styled error pages ===")
-  return unless yes?('Add GOV.UK styled error pages? y/N')
-
-  apply 'templates/errors.rb'
 end
 
 def setup_linting
