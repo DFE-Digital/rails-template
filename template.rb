@@ -12,7 +12,6 @@ def apply_template!
   create_application_scss
   create_application_js
   create_application_html_erb
-  create_builds_keep
 
   initialize_rspec
   initialize_formbuilder
@@ -94,11 +93,6 @@ end
 def create_application_html_erb
   remove_file('app/views/layouts/application.html.erb', verbose: false)
   template('app/views/layouts/application.html.erb')
-end
-
-def create_builds_keep
-  FileUtils.mkdir_p 'app/assets/builds'
-  FileUtils.touch 'app/assets/builds/.keep'
 end
 
 def add_pages_controller
