@@ -1,11 +1,9 @@
 template 'solargraph.yml', '.solargraph.yml'
 
-inject_into_file(
-  "Gemfile",
-  "gem 'solargraph', require: false\n" \
-  "gem 'solargraph-rails', require: false\n".indent(2),
-  after: "group :development do\n"
-)
+gem_group :development do
+  gem 'solargraph', require: false
+  gem 'solargraph-rails', require: false
+end
 
 run "bundle install --quiet"
 
