@@ -10,6 +10,7 @@ def apply_template!
   setup_test_suite
 
   create_application_scss
+  add_quite_deps_for_sass
   create_application_js
   create_application_html_erb
 
@@ -100,10 +101,8 @@ def add_pages_controller
   template('app/views/pages/home.html.erb', force: true)
 end
 
-def initialize_package_json
-  return if file_contains?('package.json', 'esbuild')
-  run "rails css:install:sass"
-  run "rails javascript:install:esbuild"
+def add_quite_deps_for_sass
+  return if file_contains?('package.json', '--quiet-deps')
 
   gsub_file(
     'package.json',
