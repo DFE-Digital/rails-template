@@ -44,14 +44,12 @@ def add_template_repository_to_source_path
   end
 end
 
-def file_exists?(file)
-  File.exist?(file)
+def setup_readme
+  apply 'templates/readme.rb'
 end
 
-def file_contains?(file, contains)
-  return false unless file_exists?(file)
-
-  File.foreach(file).any? { |line| line.include?(contains) }
+def setup_dependabot
+  template('dependabot.yml', '.github/dependabot.yml')
 end
 
 def setup_frontend
@@ -70,30 +68,6 @@ def add_quite_deps_for_sass
     /--load-path=node_modules/,
     '--load-path=node_modules --quiet-deps'
   )
-end
-
-def initialize_git
-  template('gitignore', '.gitignore')
-
-  git(init: "--initial-branch=main")
-  git(add: ".")
-  git(commit: <<~COMMIT)
-    -m "Initial commit
-
-    Built using the Department for Education's Rails template"
-  COMMIT
-end
-
-def setup_readme
-  apply 'templates/readme.rb'
-end
-
-def setup_adrs
-  return say('ADRs already setup, skipping') if file_contains?('Gemfile', 'rladr')
-  say("\n=== Architecture Decision Records (ADRs) ===")
-  return unless yes?('Add `rladr` for Architecture Decision Record (ADR) support? y/N')
-
-  apply 'templates/adr.rb'
 end
 
 def add_docker
@@ -121,14 +95,40 @@ def setup_solargraph
   apply 'templates/solargraph.rb'
 end
 
-def setup_dependabot
-  template('dependabot.yml', '.github/dependabot.yml')
+def setup_adrs
+  return say('ADRs already setup, skipping') if file_contains?('Gemfile', 'rladr')
+  say("\n=== Architecture Decision Records (ADRs) ===")
+  return unless yes?('Add `rladr` for Architecture Decision Record (ADR) support? y/N')
+
+  apply 'templates/adr.rb'
 end
 
 def setup_semantic_logger
   say("\n=== semantic logger https://logger.rocketjob.io/ ===")
   return unless yes?('Add semantic logging for integration with kibana? y/N')
   apply 'templates/semantic_logger.rb'
+end
+
+def initialize_git
+  template('gitignore', '.gitignore')
+
+  git(init: "--initial-branch=main")
+  git(add: ".")
+  git(commit: <<~COMMIT)
+    -m "Initial commit
+
+    Built using the Department for Education's Rails template"
+  COMMIT
+end
+
+def file_exists?(file)
+  File.exist?(file)
+end
+
+def file_contains?(file, contains)
+  return false unless file_exists?(file)
+
+  File.foreach(file).any? { |line| line.include?(contains) }
 end
 
 apply_template!
