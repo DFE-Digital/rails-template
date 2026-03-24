@@ -4,9 +4,9 @@ inject_into_file(
   after: "group :development do\n"
 )
 
-run "bin/bundle --quiet"
+run "bundle install --quiet"
 
-run "bin/bundle exec rladr init adr"
+run "bundle exec rladr init adr"
 
 append_to_file(
   'README.md',
@@ -19,7 +19,7 @@ append_to_file(
     We use `rladr` to generate the boilerplate for new records:
 
     ```bash
-    bin/bundle exec rladr new title
+    bundle exec rladr new title
     ```
   MD
 )

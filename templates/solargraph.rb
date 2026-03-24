@@ -7,7 +7,7 @@ inject_into_file(
   after: "group :development do\n"
 )
 
-run "bin/bundle --quiet"
+run "bundle install --quiet"
 
 append_to_file(
   'README.md',
@@ -21,7 +21,7 @@ append_to_file(
     dependencies and you want completion):
 
     ```sh
-    bin/bundle exec yard gems
+    bundle exec yard gems
     ```
 
     You'll also need to configure your editor's `solargraph` plugin to
