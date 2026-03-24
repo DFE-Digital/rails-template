@@ -2,11 +2,9 @@ template('tool-versions', '.tool-versions')
 
 run "asdf plugin add ruby || true"
 run "asdf plugin add nodejs || true"
-run "asdf plugin add yarn || true"
-run "asdf plugin add postgres || true"
 run "asdf install"
 
-postgres_version = get_tools_version_of("postgres")
+# postgres_version = get_tools_version_of("postgres")
 
 append_to_file(
   'README.md',
@@ -20,7 +18,6 @@ append_to_file(
     brew install asdf # Mac-specific
     asdf plugin add ruby
     asdf plugin add nodejs
-    asdf plugin add yarn
     asdf plugin add postgres
 
     # To install (or update, following a change to .tool-versions)
@@ -35,7 +32,6 @@ append_to_file(
 
     ```sh
     # Temporarily set the version of postgres to use to build the pg gem
-    ASDF_POSTGRES_VERSION=#{postgres_version} bundle install
     ```
 
   MD

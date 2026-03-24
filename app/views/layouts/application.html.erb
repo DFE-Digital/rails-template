@@ -14,7 +14,7 @@
     <%%= favicon_link_tag asset_path('images/govuk-icon-180.png'), rel: 'apple-touch-icon', type: 'image/png', size: '180x180' %>
 
     <%%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <%%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
   <body class="govuk-template__body">
