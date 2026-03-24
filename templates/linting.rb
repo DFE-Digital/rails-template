@@ -1,21 +1,10 @@
 template '.rubocop.yml'
-template '.prettierignore'
-template 'bin/lint'
-chmod "bin/lint", "+x"
 
-inject_into_file(
-  "Gemfile",
-  "gem 'prettier_print', require: false\n" \
-  "gem 'rubocop-govuk', require: false\n" \
-  "gem 'syntax_tree', require: false\n" \
-  "gem 'syntax_tree-haml', require: false\n" \
-  "gem 'syntax_tree-rbs', require: false\n".indent(2),
-  after: "group :development do\n"
-)
+gem_group :development, :test do
+  gem "rubocop-govuk", require: false
+end
 
-run "bin/bundle --quiet"
-
-run "yarn add --silent --dev prettier @prettier/plugin-ruby"
+run "bundle install --quiet"
 
 append_to_file(
   'README.md',
@@ -25,7 +14,13 @@ append_to_file(
     To run the linters:
 
     ```bash
-    bin/lint
+    bin/rubocop
+    ```
+
+    Autofix linting errors:
+
+    ```bash
+    bin/rubocop -A
     ```
   MD
 )
