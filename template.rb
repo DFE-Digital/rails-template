@@ -9,22 +9,11 @@ def apply_template!
   setup_frontend
   setup_test_suite
 
-  # create_application_scss moved to frontend
   add_quite_deps_for_sass
-  # create_application_js moved to frontend
-  # create_application_html_erb moved to frontend
 
-  # initialize_formbuilder moved to frontend
-  # initialize_govuk_frontend_assets moved to frontend
-
-  # add_pages_controller moved to frontend
-  # add_en_yml moved to govuk frontend
   add_docker
   add_docker_compose
 
-  setup_yarn
-
-  # setup_error_pages moved to frontend
   setup_linting
   setup_solargraph # Needs to come after linting
   setup_adrs # Put last for correct ordering in README
@@ -81,12 +70,6 @@ def add_quite_deps_for_sass
     /--load-path=node_modules/,
     '--load-path=node_modules --quiet-deps'
   )
-end
-
-def setup_yarn
-  apply 'templates/yarn.rb'
-
-  run "yarn set version stable"
 end
 
 def initialize_git
