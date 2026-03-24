@@ -9,7 +9,6 @@ def apply_template!
   install_gems
   initialize_package_json
 
-  create_bin_bundle
   create_application_scss
   create_application_js
   create_application_html_erb
@@ -168,12 +167,6 @@ def initialize_git
 
     Built using the Department for Education's Rails template"
   COMMIT
-end
-
-def create_bin_bundle
-  template('bin/bundle')
-
-  chmod "bin/bundle", "+x"
 end
 
 def setup_readme
