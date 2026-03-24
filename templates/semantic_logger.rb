@@ -7,7 +7,7 @@ gem_group :development, :production do
   gem "rails_semantic_logger"
 end unless file_contains?("Gemfile", 'rails_semantic_logger')
 
-run "bundle --quiet"
+run "bundle install --quiet"
 
 development_config = <<-RUBY
   # Semantic logging for integration with Kibana
@@ -16,14 +16,7 @@ development_config = <<-RUBY
   config.semantic_logger.backtrace_level = :debug # Show file and line number (expensive: not for production)
 RUBY
 
-insert_into_file(
-  "config/environments/development.rb",
-  development_config,
-  after: "Rails.application.configure do",
-) unless file_contains?(
-  "config/environments/development.rb",
-  "config.semantic_logger.backtrace_level",
-)
+environment development_config, env: :development
 
 production_config = <<-RUBY
   # Semantic logging for integration with Kibana
@@ -33,11 +26,4 @@ production_config = <<-RUBY
   config.active_record.logger = nil                       # Don't log SQL
 RUBY
 
-insert_into_file(
-  "config/environments/production.rb",
-  production_config,
-  after: "Rails.application.configure do",
-) unless file_contains?(
-  "config/environments/production.rb",
-  "config.rails_semantic_logger.add_file_appender",
-)
+environment production_config, env: :production
