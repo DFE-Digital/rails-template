@@ -66,9 +66,7 @@ def file_contains?(file, contains)
 end
 
 def setup_frontend
-  gem "govuk-components" unless file_contains?("Gemfile", "govuk-components")
-  gem "govuk_design_system_formbuilder" unless
-    file_contains?("Gemfile", "govuk_design_system_formbuilder")
+  apply "templates/frontend.rb"
 end
 
 def setup_test_suite
