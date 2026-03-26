@@ -4,8 +4,8 @@ def initialize_govuk_frontend_assets
   return if file_contains?("config/initializers/assets.rb", "govuk-frontend")
 
   assets_config = <<-RUBY
-  # Additional assets for govuk-frontend
-  Rails.application.config.assets.paths << Rails.root.join('node_modules/govuk-frontend/dist/govuk/assets')
+# Additional assets for govuk-frontend
+Rails.application.config.assets.paths << Rails.root.join('node_modules/govuk-frontend/dist/govuk/assets')
   
   RUBY
 
