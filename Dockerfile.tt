@@ -1,11 +1,23 @@
-# This template builds two images, to optimise caching:
+# syntax=docker/dockerfile:1
+# check=error=true
+
+# This Dockerfile is designed for production, not development.
+# Build'n'run by hand:
+# docker build -t <%= app_name %> .
+# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name <%= app_name %> <%= app_name %>
+#
+# This template builds four images, to optimise caching:
 # node: the official Node image, used to copy specific node and yarn into the builder image
 # base: the base image with shared configuration for builder and production stages
 # builder: builds gems and node modules
 # production: runs the actual app
 
-ARG RUBY_VERSION=4.0.2
-ARG NODE_VERSION=24.14.0
+# For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
+
+# Make sure RUBY_VERSION matches the Ruby version in .tool-versions and .ruby-version
+ARG RUBY_VERSION=<%= Gem.ruby_version %>
+# Make sure NODE_VERSION matches the NodeJS version in .tool-versions and package.json
+ARG NODE_VERSION=<%= node_version %>
 
 # Node image
 FROM docker.io/library/node:$NODE_VERSION-alpine AS node
