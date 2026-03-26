@@ -8,6 +8,8 @@ def apply_template!
   after_bundle do
     pre_template_commit
 
+    ensure_node_version_set
+
     setup_readme
     setup_dependabot
 
@@ -23,8 +25,6 @@ def apply_template!
     setup_solargraph # Needs to come after linting
     setup_adrs # Put last for correct ordering in README
     setup_semantic_logger
-
-    # setup_dfe_analytics
 
     fix_ci
     fix_setup
@@ -62,6 +62,19 @@ def pre_template_commit
 
     Rails new commit, before we start applying the template"
   COMMIT
+end
+
+def ensure_node_version_set
+  return if file_contains?("package.json", "engines")
+
+  node_engine_config = <<-JSON
+  
+  "engines": {
+    "node": "#{node_version}"
+  },
+      JSON
+
+  insert_into_file("package.json", node_engine_config, after: "{")
 end
 
 def configure_generators
