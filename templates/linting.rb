@@ -20,7 +20,7 @@ append_to_file(
     Autofix linting errors:
 
     ```bash
-    bin/rubocop -A
+    bin/rubocop --autocorrect-all
     ```
   MD
 )

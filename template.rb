@@ -83,9 +83,7 @@ def add_docker_compose
 end
 
 def setup_linting
-  return say('linting already setup, skipping') if file_exists?('.rubocop.yml')
   say("\n=== Rubocop and prettier ===")
-  return unless yes?('Add govuk-rubocop and Prettier for linting/formatting? y/N')
 
   apply 'templates/linting.rb'
 end
