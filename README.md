@@ -1,9 +1,8 @@
 # Rails 8 application template
 
-[DFE-Digital/rails-template](https://guides.rubyonrails.org/rails_application_templates.html)
-is a [Rails application
-template](https://guides.rubyonrails.org/rails_application_templates.html) that
-makes starting a new GOV.UK Rails project fast and fun.
+[DFE-Digital/rails-template](https://guides.rubyonrails.org/rails_application_templates.html) is
+a [Rails application template](https://guides.rubyonrails.org/rails_application_templates.html) that makes starting a
+new GOV.UK Rails project fast and fun.
 
 ## What's included
 
@@ -21,18 +20,6 @@ makes starting a new GOV.UK Rails project fast and fun.
   [rubocop-govuk](https://github.com/alphagov/rubocop-govuk), formatting with
   [prettier/plugin-ruby](https://github.com/prettier/plugin-ruby)
 
-### What's improved from the [old boilerplate](https://github.com/DFE-Digital/govuk-rails-boilerplate)
-
-- :new: Ruby 3, Rails 8, and the template does not require us to manually merge
-  dependabot PRs or to keep Ruby/Rails up to date; that's handled by `rails new`!
-- :new: [rails/propshaft](https://github.com/rails/propshaft) asset pipeline
-- :new: [cssbundling](https://github.com/rails/cssbundling-rails) /
-  [jsbundling](https://github.com/rails/jsbundling-rails) with
-  [dart-sass](https://sass-lang.com/dart-sass) and
-  [esbuild](https://esbuild.github.io/), no more Webpack!
-- :new: [Importing improvements from the
-  template](#importing-improvements-from-the-template)
-
 ## Requirements
 
 - Ruby 3.2.2
@@ -48,7 +35,7 @@ setup process (see: [How to setup a new project](#how-to-setup-a-new-project)).
 - [Yarn 1.22.x](https://yarnpkg.com/)
 - Postgres 13.x
 
-If `asdf` is not used, ensure these are available and in your path. You can check this with: 
+If `asdf` is not used, ensure these are available and in your path. You can check this with:
 
 ``` sh
 $ ruby --version
