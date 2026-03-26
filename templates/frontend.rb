@@ -42,6 +42,16 @@ def setup_error_pages
   apply 'templates/errors.rb'
 end
 
+def add_quite_deps_for_sass
+  return if file_contains?('package.json', '--quiet-deps')
+
+  gsub_file(
+    'package.json',
+    /--load-path=node_modules/,
+    '--load-path=node_modules --quiet-deps'
+  )
+end
+
 def apply_template!
   setup_govuk_frontend
   setup_govuk_components
@@ -49,6 +59,8 @@ def apply_template!
 
   add_pages_controller
   setup_error_pages
+
+  add_quite_deps_for_sass
 end
 
 apply_template!

@@ -60,16 +60,6 @@ def setup_test_suite
   apply 'templates/test_suite.rb'
 end
 
-def add_quite_deps_for_sass
-  return if file_contains?('package.json', '--quiet-deps')
-
-  gsub_file(
-    'package.json',
-    /--load-path=node_modules/,
-    '--load-path=node_modules --quiet-deps'
-  )
-end
-
 def add_docker
   say "\n=== Docker ==="
   template('Dockerfile')
@@ -89,17 +79,13 @@ def setup_linting
 end
 
 def setup_solargraph
-  return say('solargraph already setup, skipping') if file_exists?('.solargraph.yml')
   say("\n=== solargraph https://solargraph.org/ ===")
-  return unless yes?('Add solargraph for Ruby intellisense support? y/N')
 
   apply 'templates/solargraph.rb'
 end
 
 def setup_adrs
-  return say('ADRs already setup, skipping') if file_contains?('Gemfile', 'rladr')
   say("\n=== Architecture Decision Records (ADRs) ===")
-  return unless yes?('Add `rladr` for Architecture Decision Record (ADR) support? y/N')
 
   apply 'templates/adr.rb'
 end
