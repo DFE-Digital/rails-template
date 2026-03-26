@@ -1,8 +1,9 @@
 template 'app/controllers/errors_controller.rb'
 
-template 'app/views/errors/internal_server_error.html.erb'
 template 'app/views/errors/not_found.html.erb'
 template 'app/views/errors/unprocessable_entity.html.erb'
+# template 'app/views/errors/too_many_requests.html.erb'
+template 'app/views/errors/internal_server_error.html.erb'
 
 routes = <<-RUBY
 
@@ -16,12 +17,12 @@ RUBY
 
 insert_into_file('config/routes.rb', routes, before: /^end/)
 
-insert_into_file(
-  'config/application.rb',
-  "\nconfig.exceptions_app = routes\n".indent(4),
-  before: "  end\nend"
-)
+initializer "error_pages.rb", <<-RUBY
+  Rails.application.config.exceptions_app = Rails.application.routes
+RUBY
 
+remove_file 'public/400.html'
+remove_file 'public/406-unsupported-browser.html'
 remove_file 'public/404.html'
 remove_file 'public/422.html'
 remove_file 'public/500.html'

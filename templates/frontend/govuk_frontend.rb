@@ -1,15 +1,21 @@
 def initialize_govuk_frontend_assets
-  run "yarn --silent add govuk-frontend@5.11.1"
+  run "yarn --silent add govuk-frontend"
 
-  return if file_contains?("config/application.rb", "govuk-frontend")
+  return if file_contains?("config/initializers/assets.rb", "govuk-frontend")
+
+  assets_config = <<-RUBY
+  # Additional assets for govuk-frontend
+  Rails.application.config.assets.paths << Rails.root.join('node_modules/govuk-frontend/dist/govuk/assets')
+  
+  RUBY
 
   insert_into_file(
-    'config/application.rb',
-    "\nconfig.assets.paths << Rails.root.join('node_modules/govuk-frontend/dist/govuk/assets')\n".indent(4),
-    before: "  end\nend"
+    'config/initializers/assets.rb',
+    assets_config,
   )
 
-  remove_file("config/initializers/assets.rb")
+  remove_file 'public/icon.png'
+  remove_file 'public/icon.svg'
 end
 
 def create_application_scss
@@ -27,6 +33,7 @@ end
 def create_application_html_erb
   remove_file('app/views/layouts/application.html.erb', verbose: false)
   template('app/views/layouts/application.html.erb')
+  remove_dir("app/views/pwa", verbose: false)
 end
 
 def add_en_yml
