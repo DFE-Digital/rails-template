@@ -106,7 +106,7 @@ end
 
 def setup_semantic_logger
   say("\n=== semantic logger https://logger.rocketjob.io/ ===")
-  return unless yes?('Add semantic logging for integration with kibana? y/N')
+
   apply 'templates/semantic_logger.rb'
 end
 

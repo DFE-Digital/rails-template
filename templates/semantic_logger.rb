@@ -14,6 +14,7 @@ development_config = <<-RUBY
   config.log_level = :info                        # Or :debug
   config.log_format = :color                      # Console colorised non-json output
   config.semantic_logger.backtrace_level = :debug # Show file and line number (expensive: not for production)
+  
 RUBY
 
 environment development_config, env: :development
@@ -24,6 +25,7 @@ production_config = <<-RUBY
   config.log_format = :json                               # For parsing in Logit
   config.rails_semantic_logger.add_file_appender = false  # Don't log to file
   config.active_record.logger = nil                       # Don't log SQL
+  
 RUBY
 
 environment production_config, env: :production
