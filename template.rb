@@ -3,24 +3,35 @@ fail("Rails 7.0.0 or greater is required") if Rails.version <= "7"
 def apply_template!
   add_template_repository_to_source_path
 
-  setup_readme
-  setup_dependabot
-
-  setup_frontend
-  setup_test_suite
-
-  add_quite_deps_for_sass
-
-  add_docker
-  add_docker_compose
-
-  setup_linting
-  setup_solargraph # Needs to come after linting
-  setup_adrs # Put last for correct ordering in README
-  setup_semantic_logger
+  template('gitignore', '.gitignore')
 
   after_bundle do
-    initialize_git
+    pre_template_commit
+
+    setup_readme
+    setup_dependabot
+
+    configure_generators
+
+    setup_frontend
+    setup_test_suite
+
+    add_docker
+    add_docker_compose
+
+    setup_linting
+    setup_solargraph # Needs to come after linting
+    setup_adrs # Put last for correct ordering in README
+    setup_semantic_logger
+
+    # setup_dfe_analytics
+
+    fix_ci
+    fix_setup
+    bundle_with_checksums
+    apply_rubocop_fixes
+
+    post_template_commit
   end
 end
 
@@ -42,6 +53,50 @@ def add_template_repository_to_source_path
   else
     source_paths.unshift(File.dirname(__FILE__))
   end
+end
+
+def pre_template_commit
+  git(add: ".")
+  git(commit: <<~COMMIT)
+    -m "Pre template commit
+
+    Rails new commit, before we start applying the template"
+  COMMIT
+end
+
+def configure_generators
+  initializer "generators.rb", <<-RUBY
+  Rails.application.config.generators do |g|
+    g.test_framework :rspec, fixture: false
+    g.helper false
+    g.stylesheets false
+    g.scaffold_stylesheet false
+    g.template_engine :erb
+    
+    # Don't generate system test files.
+    g.view_specs false
+    g.helper_specs false
+    
+    # Uncomment to configure generators to use ULID primary keys
+    # g.orm :active_record, primary_key_type: :string
+  end
+
+  RUBY
+end
+
+def apply_rubocop_fixes
+  run("bin/rubocop --autocorrect-all")
+end
+
+def fix_ci
+  gsub_file("config/ci.rb", "yarn audit", "yarn npm audit")
+end
+def fix_setup
+  gsub_file("bin/setup", "yarn install --check-files", "yarn install")
+end
+
+def bundle_with_checksums
+  run("bundle lock --add-checksums")
 end
 
 def setup_readme
@@ -96,10 +151,7 @@ def setup_semantic_logger
   apply 'templates/semantic_logger.rb'
 end
 
-def initialize_git
-  template('gitignore', '.gitignore')
-
-  git(init: "--initial-branch=main")
+def post_template_commit
   git(add: ".")
   git(commit: <<~COMMIT)
     -m "Initial commit
