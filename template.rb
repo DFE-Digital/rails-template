@@ -71,11 +71,14 @@ def add_quite_deps_for_sass
 end
 
 def add_docker
+  say "\n=== Docker ==="
   template('Dockerfile')
   template('dockerignore', '.dockerignore')
+  remove_file("bin/docker-entrypoint")
 end
 
 def add_docker_compose
+  say "\n=== Docker Compose ==="
   apply 'templates/docker_compose.rb'
 end
 

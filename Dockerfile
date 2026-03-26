@@ -1,35 +1,56 @@
 # This template builds two images, to optimise caching:
+# node: the official Node image, used to copy specific node and yarn into the builder image
+# base: the base image with shared configuration for builder and production stages
 # builder: builds gems and node modules
 # production: runs the actual app
 
-# Build builder image
-FROM ruby:3.2.2-alpine as builder
+ARG RUBY_VERSION=4.0.2
+ARG NODE_VERSION=24.14.0
 
-# RUN apk -U upgrade && \
-#     apk add --update --no-cache gcc git libc6-compat libc-dev make nodejs \
-#     postgresql13-dev yarn
+# Node image
+FROM docker.io/library/node:$NODE_VERSION-alpine AS node
 
-WORKDIR /app
+# Build base image
+FROM docker.io/library/ruby:$RUBY_VERSION-alpine AS base
 
-# Add the timezone (builder image) as it's not configured by default in Alpine
+# Add the timezone (base image) as it's not configured by default in Alpine
 RUN apk add --update --no-cache tzdata && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
     echo "Europe/London" > /etc/timezone
 
+# Set production environment variables
+ENV RAILS_ENV="production"
+
+# Build builder image from base
+FROM base AS builder
+
+# Install node
+COPY --from=node /usr/lib /usr/lib
+COPY --from=node /usr/local/share /usr/local/share
+COPY --from=node /usr/local/lib /usr/local/lib
+COPY --from=node /usr/local/include /usr/local/include
+COPY --from=node /usr/local/bin /usr/local/bin
+
+WORKDIR /app
+
 # build-base: dependencies for bundle
-# yarn: node package manager
+# node: node includes yarn as a package manager
 # postgresql-dev: postgres driver and libraries
-RUN apk add --no-cache build-base yarn postgresql13-dev
+# yaml-dev: psych issues
+RUN apk add --no-cache build-base postgresql17-dev yaml-dev
+RUN npm install -g corepack
+RUN corepack enable
 
 # Install gems defined in Gemfile
-COPY .ruby-version Gemfile Gemfile.lock ./
+COPY Gemfile Gemfile.lock ./
 
 # Install gems and remove gem cache
 RUN bundler -v && \
-    bundle config set no-cache 'true' && \
-    bundle config set no-binstubs 'true' && \
-    bundle config set without 'development test' && \
-    bundle install --retry=5 --jobs=4 && \
+    bundle config set --local deployment 'true' && \
+    bundle config set --local without 'development test' && \
+    bundle config set --local retry 5 && \
+    bundle config set --local jobs 4 && \
+    bundle install --no-cache && \
     rm -rf /usr/local/bundle/cache
 
 # Install node packages defined in package.json
@@ -40,35 +61,36 @@ RUN yarn install --immutable
 COPY . .
 
 # Precompile assets
-RUN RAILS_ENV=production SECRET_KEY_BASE=required-to-run-but-not-used \
-    bundle exec rails assets:precompile
+RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 # Cleanup to save space in the production image
 RUN rm -rf node_modules log/* tmp/* /tmp && \
     rm -rf /usr/local/bundle/cache && \
-    rm -rf .env && \
-    find /usr/local/bundle/gems -name "*.c" -delete && \
-    find /usr/local/bundle/gems -name "*.h" -delete && \
-    find /usr/local/bundle/gems -name "*.o" -delete && \
-    find /usr/local/bundle/gems -name "*.html" -delete
+    rm -rf .env
 
-# Build runtime image
-FROM ruby:3.2.2-alpine as production
+# Build runtime image from base
+FROM base AS production
 
 # The application runs from /app
 WORKDIR /app
 
-# Add the timezone (prod image) as it's not configured by default in Alpine
-RUN apk add --update --no-cache tzdata && \
-    cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
-    echo "Europe/London" > /etc/timezone
+# Create non-root user and group
+RUN addgroup -S appgroup -g 20001 && adduser -S appuser -G appgroup -u 10001
 
 # libpq: required to run postgres
 RUN apk add --no-cache libpq
 
 # Copy files generated in the builder image
 COPY --from=builder /app /app
-COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
+COPY --from=builder /usr/local/bundle /usr/local/bundle
 
-CMD bundle exec rails db:migrate && \
-    bundle exec rails server -b 0.0.0.0
+# Change ownership only for directories that need write access
+RUN chown -R appuser:appgroup /app/tmp
+
+ARG COMMIT_SHA
+ENV COMMIT_SHA=$COMMIT_SHA
+
+# Use non-root user
+USER 10001
+
+CMD ["./bin/rails", "server"]
