@@ -22,10 +22,4 @@ append_to_file(
   MD
 )
 
-template 'adr/00001-record-architecture-decisions.md', force: true
-
-gsub_file(
-  'adr/00001-record-architecture-decisions.md',
-  /2022-05-10/,
-  Time.new.strftime('%Y-%m-%d')
-)
+template 'template_files/adr/00001-record-architecture-decisions', 'adr/00001-record-architecture-decisions.md', force: true

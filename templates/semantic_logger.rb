@@ -1,5 +1,5 @@
 unless file_exists?("config/initializers/semantic_logger.rb")
-  template("config/initializers/semantic_logger.rb")
+  template("template_files/config/initializers/semantic_logger.rb", "config/initializers/semantic_logger.rb")
 end
 
 gem_group :development, :production do

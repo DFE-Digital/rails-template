@@ -3,7 +3,7 @@ fail("Rails 7.0.0 or greater is required") if Rails.version <= "7"
 def apply_template!
   add_template_repository_to_source_path
 
-  template('gitignore', '.gitignore')
+  template('template_files/gitignore', '.gitignore', force: true)
 
   after_bundle do
     pre_template_commit
@@ -70,7 +70,7 @@ def ensure_node_version_set
   node_engine_config = <<-JSON
   
   "engines": {
-    "node": "#{node_version}"
+    "node": "^#{node_version}"
   },
       JSON
 
@@ -98,7 +98,7 @@ def configure_generators
 end
 
 def apply_rubocop_fixes
-  run("bin/rubocop --autocorrect-all")
+  run("bin/rubocop --autocorrect-all --format quiet")
 end
 
 def fix_ci
@@ -117,7 +117,7 @@ def setup_readme
 end
 
 def setup_dependabot
-  template('dependabot.yml', '.github/dependabot.yml')
+  template('template_files/dependabot.yml', '.github/dependabot.yml', force: true)
 end
 
 def setup_frontend
@@ -130,8 +130,8 @@ end
 
 def add_docker
   say "\n=== Docker ==="
-  template('Dockerfile')
-  template('dockerignore', '.dockerignore')
+  template('template_files/Dockerfile', 'Dockerfile', force: true)
+  template('template_files/dockerignore', '.dockerignore', force: true)
   remove_file("bin/docker-entrypoint")
 end
 

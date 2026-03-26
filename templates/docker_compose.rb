@@ -1,4 +1,4 @@
-template('docker-compose.yml','docker-compose.yml')
+template('template_files/docker-compose.yml','docker-compose.yml')
 append_to_file(
   'docker-compose.yml',
   <<~MD

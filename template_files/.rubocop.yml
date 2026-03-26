@@ -1,7 +1,6 @@
 inherit_gem:
   rubocop-rails-omakase: rubocop.yml
-  rubocop-govuk:
-    - config/default.yml
+  rubocop-govuk: config/default.yml
 
 inherit_mode:
   merge:

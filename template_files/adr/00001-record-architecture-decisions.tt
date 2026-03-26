@@ -1,6 +1,6 @@
 # 1. Record architecture decisions
 
-Date: 2022-05-10
+Date: <%= Time.new.strftime('%Y-%m-%d') %>
 
 ## Status
 

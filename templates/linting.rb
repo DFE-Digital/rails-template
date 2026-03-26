@@ -1,4 +1,4 @@
-template '.rubocop.yml'
+template 'template_files/.rubocop.yml', '.rubocop.yml', force: true
 
 gem_group :development, :test do
   gem "rubocop-govuk", require: false

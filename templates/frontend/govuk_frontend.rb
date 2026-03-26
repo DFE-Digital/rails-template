@@ -22,24 +22,24 @@ def create_application_scss
   remove_file("app/assets/stylesheets/application.css")
 
   remove_file('app/assets/stylesheets/application.sass.scss', verbose: false)
-  template('app/assets/stylesheets/application.sass.scss')
+  template('template_files/app/assets/stylesheets/application.sass.scss', 'app/assets/stylesheets/application.sass.scss')
 end
 
 def create_application_js
   remove_file('app/javascript/application.js', verbose: false)
-  template('app/javascript/application.js')
+  template('template_files/app/javascript/application.js', 'app/javascript/application.js')
 end
 
 def create_application_html_erb
   remove_file('app/views/layouts/application.html.erb', verbose: false)
-  template('app/views/layouts/application.html.erb')
+  template('template_files/app/views/layouts/application.html.erb', 'app/views/layouts/application.html.erb')
   remove_dir("app/views/pwa", verbose: false)
 end
 
 def add_en_yml
   return unless file_contains?('config/locales/en.yml', 'Hello world')
   remove_file('config/locales/en.yml', verbose: false)
-  template('config/locales/en.yml')
+  template('template_files/config/locales/en.yml', 'config/locales/en.yml')
 end
 
 def apply_template!

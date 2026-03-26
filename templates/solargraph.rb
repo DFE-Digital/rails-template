@@ -1,4 +1,4 @@
-template 'solargraph.yml', '.solargraph.yml'
+template 'template_files/solargraph.yml', '.solargraph.yml'
 
 gem_group :development do
   gem 'solargraph', require: false

@@ -7,7 +7,7 @@ def initialize_formbuilder
     after: "class ApplicationController < ActionController::Base\n"
   )
 
-  template('config/initializers/govuk_formbuilder.rb')
+  template('template_files/config/initializers/govuk_formbuilder.rb', 'config/initializers/govuk_formbuilder.rb')
 end
 
 def setup_govuk_frontend
@@ -31,13 +31,11 @@ def add_pages_controller
   generate("controller", "pages", "home", "--skip-routes")
   route("root to: 'pages#home'") unless file_contains?("config/routes.rb", "root to:")
 
-  template('app/views/pages/home.html.erb', force: true)
+  template('template_files/app/views/pages/home.html.erb', 'app/views/pages/home.html.erb', force: true)
 end
 
 def setup_error_pages
-  return say('Error pages already setup, skipping') if file_exists?('app/controllers/errors_controller.rb')
   say("\n=== GOV.UK styled error pages ===")
-  return unless yes?('Add GOV.UK styled error pages? y/N')
 
   apply 'templates/errors.rb'
 end

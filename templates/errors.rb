@@ -1,9 +1,9 @@
-template 'app/controllers/errors_controller.rb'
+template 'template_files/app/controllers/errors_controller.rb', 'app/controllers/errors_controller.rb'
 
-template 'app/views/errors/not_found.html.erb'
-template 'app/views/errors/unprocessable_entity.html.erb'
-# template 'app/views/errors/too_many_requests.html.erb'
-template 'app/views/errors/internal_server_error.html.erb'
+template 'template_files/app/views/errors/not_found.html.erb', 'app/views/errors/not_found.html.erb'
+template 'template_files/app/views/errors/unprocessable_entity.html.erb', 'app/views/errors/unprocessable_entity.html.erb'
+# template 'template_files/app/views/errors/too_many_requests.html.erb', 'app/views/errors/too_many_requests.html.erb'
+template 'template_files/app/views/errors/internal_server_error.html.erb', 'app/views/errors/internal_server_error.html.erb'
 
 routes = <<-RUBY
 
