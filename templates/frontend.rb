@@ -15,12 +15,17 @@ def setup_govuk_frontend
 end
 
 def setup_govuk_components
-  gem "govuk-components" unless file_contains?("Gemfile", "govuk-components")
+  return if file_contains?("Gemfile", "govuk-components")
+  gem "govuk-components"
+
+  run "bundle install --quiet"
 end
 
 def setup_govuk_formbuilder
   gem "govuk_design_system_formbuilder" unless
     file_contains?("Gemfile", "govuk_design_system_formbuilder")
+
+  run "bundle install --quiet"
 
   initialize_formbuilder
 end
