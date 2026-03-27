@@ -23,3 +23,4 @@ append_to_file(
 )
 
 template 'template_files/adr/00001-record-architecture-decisions', 'adr/00001-record-architecture-decisions.md', force: true
+template 'template_files/adr/00002-use-dfe-rails-template', 'adr/00002-use-dfe-rails-template.md', force: true

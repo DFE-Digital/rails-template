@@ -1,0 +1,38 @@
+# 2. Use the DFE Rails template for new projects
+
+Date: <%= Time.new.strftime('%Y-%m-%d') %>
+
+## Status
+
+Accepted
+
+## Context
+
+Starting a new Rails application requires many setup decisions: which testing framework, how to structure logging, what linting standards to follow, how to containerise the app, and so on. Each decision is reasonable on its own, but collectively they consume significant time and mental energy. This overhead exists even when those decisions are well-established within the organisation.
+
+Additionally, inconsistency across projects makes it harder to move between codebases, harder to share patterns, and harder to maintain shared infrastructure like deployment pipelines and monitoring.
+
+## Decision
+
+We will use the [DFE Rails template](https://github.com/DFE-Digital/rails-template) as the default starting point for all new Rails projects. This template encodes our established preferences for testing (RSpec), linting (rubocop-govuk), logging (semantic logger), error handling, and Docker configuration.
+
+## Consequences
+
+**Benefits:**
+- New projects start with a consistent, battle-tested foundation. We don't make the same decisions repeatedly.
+- Teams can focus on business logic rather than infrastructure setup.
+- The template serves as a reference for how we do things. It becomes the source of truth.
+- When we improve an approach (better Docker practices, updated linting rules), we can update the template once and apply it to future projects.
+
+**Trade-offs:**
+- The template makes opinionated choices. If a project has genuinely different needs, those choices may need to be overridden or the project may need to fork the template.
+- Maintaining the template is a responsibility. Changes should be careful and well-tested.
+- Projects created before the template may diverge over time. We'll need to decide case-by-case whether to align them.
+
+**Implementation:**
+- Use `rails new` with the template URL for all new DFE digital projects.
+- The template applies all included features by default. There are no optional prompts.
+- Generated projects will include a clear commit history showing what the template changed.
+
+See the [template README](https://github.com/DFE-Digital/rails-template) for setup instructions and the full list of what's included.
+
