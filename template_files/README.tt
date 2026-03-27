@@ -1,0 +1,56 @@
+# <%= app_name.humanize %>
+
+Replace this with a description of what this service does and who it's for.
+
+## Getting started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- [asdf](https://asdf-vm.com/) with Ruby and Node plugins
+- [Postgres](https://www.postgresql.org/)
+
+The required versions are:
+- Ruby: <%= Gem.ruby_version %> (see `.ruby-version`)
+- Node: <%= node_version %> (see `package.json` under `engines.node`)
+- Yarn: <%= dockerfile_yarn_version %> (see `package.json` under `packageManager`)
+
+### Setup
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd <%= app_name %>
+
+# Install Ruby and Node versions
+asdf install
+
+# Setup the application
+bin/setup
+```
+
+`bin/setup` will install gems, install JavaScript packages, set up the database, and start the Rails development server. See the script to understand what it runs.
+
+## Running the application locally
+
+```bash
+# Start the development server
+bin/setup
+
+# Run tests and linters
+bin/ci
+```
+
+See `bin/setup` and `bin/ci` scripts to understand what gets run each time.
+
+## Making changes
+
+After pulling changes from your branch:
+
+```bash
+bin/setup
+```
+
+This will update gems, JavaScript packages, run any pending migrations, and start the dev server.
+
