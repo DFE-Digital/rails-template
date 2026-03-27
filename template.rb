@@ -80,6 +80,16 @@ def ensure_node_version_set
   insert_into_file("package.json", node_engine_config, after: "{")
 end
 
+def setup_readme
+  say "\n=== Setting up README ==="
+  apply 'templates/readme.rb'
+end
+
+def setup_dependabot
+  say "\n=== Setting up Dependabot ==="
+  template('template_files/dependabot.yml', '.github/dependabot.yml', force: true)
+end
+
 def configure_generators
   say "\n=== Configuring generators ==="
   initializer "generators.rb", <<-RUBY
@@ -99,36 +109,6 @@ def configure_generators
   end
 
   RUBY
-end
-
-def apply_rubocop_fixes
-  say "\n=== Running Rubocop fixes ==="
-  run("bin/rubocop --autocorrect-all --format quiet")
-end
-
-def fix_ci
-  say "\n=== Fixing CI configuration ==="
-  gsub_file("config/ci.rb", "yarn audit", "yarn npm audit")
-end
-
-def fix_setup
-  say "\n=== Fixing setup script ==="
-  gsub_file("bin/setup", "yarn install --check-files", "yarn install")
-end
-
-def bundle_with_checksums
-  say "\n=== Adding checksums to Gemfile.lock ==="
-  run("bundle lock --add-checksums")
-end
-
-def setup_readme
-  say "\n=== Setting up README ==="
-  apply 'templates/readme.rb'
-end
-
-def setup_dependabot
-  say "\n=== Setting up Dependabot ==="
-  template('template_files/dependabot.yml', '.github/dependabot.yml', force: true)
 end
 
 def setup_frontend
@@ -175,6 +155,26 @@ def setup_semantic_logger
   say("\n=== semantic logger https://logger.rocketjob.io/ ===")
 
   apply 'templates/semantic_logger.rb'
+end
+
+def fix_ci
+  say "\n=== Fixing CI configuration ==="
+  gsub_file("config/ci.rb", "yarn audit", "yarn npm audit")
+end
+
+def fix_setup
+  say "\n=== Fixing setup script ==="
+  gsub_file("bin/setup", "yarn install --check-files", "yarn install")
+end
+
+def bundle_with_checksums
+  say "\n=== Adding checksums to Gemfile.lock ==="
+  run("bundle lock --add-checksums")
+end
+
+def apply_rubocop_fixes
+  say "\n=== Running Rubocop fixes ==="
+  run("bin/rubocop --autocorrect-all --format quiet")
 end
 
 def post_template_commit
