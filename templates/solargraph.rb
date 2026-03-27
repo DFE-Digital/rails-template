@@ -1,3 +1,5 @@
+say "  - Setting up Solargraph for IDE support"
+
 template 'template_files/solargraph.yml', '.solargraph.yml'
 
 gem_group :development do

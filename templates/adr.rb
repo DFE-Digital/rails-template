@@ -1,3 +1,5 @@
+say "  - Setting up Architecture Decision Records"
+
 gem_group :development do
   gem 'rladr'
 end

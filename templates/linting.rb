@@ -1,3 +1,5 @@
+say "  - Installing rubocop and linters"
+
 template 'template_files/.rubocop.yml', '.rubocop.yml', force: true
 
 gem_group :development, :test do

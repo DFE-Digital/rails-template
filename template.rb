@@ -57,6 +57,7 @@ def add_template_repository_to_source_path
 end
 
 def pre_template_commit
+  say "\n=== Creating pre-template commit ==="
   git(add: ".")
   git(commit: <<~COMMIT)
     -m "Pre template commit
@@ -66,6 +67,7 @@ def pre_template_commit
 end
 
 def ensure_node_version_set
+  say "\n=== Setting Node version ==="
   return if file_contains?("package.json", "engines")
 
   node_engine_config = <<-JSON
@@ -79,6 +81,7 @@ def ensure_node_version_set
 end
 
 def configure_generators
+  say "\n=== Configuring generators ==="
   initializer "generators.rb", <<-RUBY
   Rails.application.config.generators do |g|
     g.test_framework :rspec, fixture: false
@@ -99,33 +102,42 @@ def configure_generators
 end
 
 def apply_rubocop_fixes
+  say "\n=== Running Rubocop fixes ==="
   run("bin/rubocop --autocorrect-all --format quiet")
 end
 
 def fix_ci
+  say "\n=== Fixing CI configuration ==="
   gsub_file("config/ci.rb", "yarn audit", "yarn npm audit")
 end
+
 def fix_setup
+  say "\n=== Fixing setup script ==="
   gsub_file("bin/setup", "yarn install --check-files", "yarn install")
 end
 
 def bundle_with_checksums
+  say "\n=== Adding checksums to Gemfile.lock ==="
   run("bundle lock --add-checksums")
 end
 
 def setup_readme
+  say "\n=== Setting up README ==="
   apply 'templates/readme.rb'
 end
 
 def setup_dependabot
+  say "\n=== Setting up Dependabot ==="
   template('template_files/dependabot.yml', '.github/dependabot.yml', force: true)
 end
 
 def setup_frontend
+  say "\n=== Setting up GOV.UK Frontend ==="
   apply "templates/frontend.rb"
 end
 
 def setup_test_suite
+  say "\n=== Setting up test suite ==="
   apply 'templates/test_suite.rb'
 end
 
@@ -166,6 +178,7 @@ def setup_semantic_logger
 end
 
 def post_template_commit
+  say "\n=== Creating post-template commit ==="
   git(add: ".")
   git(commit: <<~COMMIT)
     -m "Initial commit

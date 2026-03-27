@@ -1,4 +1,5 @@
 def initialize_formbuilder
+  say "  - Installing GOV.UK Form Builder"
   return if file_contains?("config/initializers/govuk_formbuilder.rb", "GOVUKDesignSystemFormBuilder")
 
   inject_into_file(
@@ -11,10 +12,12 @@ def initialize_formbuilder
 end
 
 def setup_govuk_frontend
+  say "  - Setting up GOV.UK Frontend"
   apply "templates/frontend/govuk_frontend.rb"
 end
 
 def setup_govuk_components
+  say "  - Installing GOV.UK Components"
   return if file_contains?("Gemfile", "govuk-components")
   gem "govuk-components"
 
@@ -22,8 +25,8 @@ def setup_govuk_components
 end
 
 def setup_govuk_formbuilder
-  gem "govuk_design_system_formbuilder" unless
-    file_contains?("Gemfile", "govuk_design_system_formbuilder")
+  return if file_contains?("Gemfile", "govuk_design_system_formbuilder")
+  gem "govuk_design_system_formbuilder"
 
   run "bundle install --quiet"
 
@@ -31,6 +34,7 @@ def setup_govuk_formbuilder
 end
 
 def add_pages_controller
+  say "  - Creating home page controller"
   return if file_exists?("app/controllers/pages_controller.rb")
 
   generate("controller", "pages", "home", "--skip-routes")
@@ -40,12 +44,12 @@ def add_pages_controller
 end
 
 def setup_error_pages
-  say("\n=== GOV.UK styled error pages ===")
-
+  say "  - Setting up error pages"
   apply 'templates/errors.rb'
 end
 
 def add_quite_deps_for_sass
+  say "  - Configuring SASS compilation"
   return if file_contains?('package.json', '--quiet-deps')
 
   gsub_file(

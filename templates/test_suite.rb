@@ -1,3 +1,5 @@
+say "  - Installing RSpec and test dependencies"
+
 gem_group :development, :test do
   gem "rspec"
   gem "rspec-rails"
@@ -11,6 +13,8 @@ run "bundle install --quiet"
 generate("rspec:install") unless file_exists?(".rspec")
 
 run "bundle binstubs rspec-core"
+
+say "  - Setting up test support files"
 
 template('template_files/spec/support/capybara.rb', 'spec/support/capybara.rb')
 template('template_files/spec/support/factory_bot.rb', 'spec/support/factory_bot.rb')

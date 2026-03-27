@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+say "  - Updating README"
+
 append_to_file(
   'README.md',
   <<~MD

@@ -1,3 +1,5 @@
+say "  - Setting up error pages"
+
 template 'template_files/app/controllers/errors_controller.rb', 'app/controllers/errors_controller.rb'
 
 template 'template_files/app/views/errors/not_found.html.erb', 'app/views/errors/not_found.html.erb'
