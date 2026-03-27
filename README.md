@@ -9,116 +9,101 @@ new GOV.UK Rails project fast and fun.
 - [GOV.UK Frontend 5.8.0](https://github.com/alphagov/govuk-frontend)
 - [GOV.UK Components](https://govuk-components.netlify.app/)
 - [GOV.UK Form Builder](https://govuk-form-builder.netlify.app/)
-- [RSpec](https://rspec.info/)
-- Production/PaaS/Terraform ready Dockerfile
-- (optional) [Architecture decision record
-  support](https://github.com/andrewaguiar/rladr)
-- (optional) GOV.UK styled error pages
-- (optional) [asdf](https://asdf-vm.com/) versioning
-- (optional) [solargraph](https://solargraph.org/) with bundled gem support
-- (optional) Linting with
-  [rubocop-govuk](https://github.com/alphagov/rubocop-govuk), formatting with
-  [prettier/plugin-ruby](https://github.com/prettier/plugin-ruby)
+- [RSpec](https://rspec.info/) with support files
+- Production-ready Docker setup with reproducible builds
+- [Architecture decision records](https://github.com/andrewaguiar/rladr)
+- GOV.UK styled error pages
+- [Solargraph](https://solargraph.org/) for IDE support
+- Linting with [rubocop-govuk](https://github.com/alphagov/rubocop-govuk) and [prettier/plugin-ruby](https://github.com/prettier/plugin-ruby)
+- Semantic logging configured for development and production
 
 ## Requirements
 
-- Ruby 3.2.2
-- Rails 8.0.x
-- [Foreman](https://github.com/ddollar/foreman)
+- Ruby 4.0.2 (or any supported Rails 8 version)
+- Node 24.14.0 (or any recent LTS version)
+- Postgres (running locally or via Docker)
+- [asdf](https://asdf-vm.com/) with Ruby and NodeJS plugins
 
-### Tools optionally installed by asdf
+The template will automatically use whatever Ruby and Node versions you have installed. The versions above are just recommendations. The Dockerfile and package.json will be configured with your actual versions.
 
-The following tools will be installed by `asdf` if it is enabled during the
-setup process (see: [How to setup a new project](#how-to-setup-a-new-project)).
+**Note on Yarn**: if you have the asdf yarn plugin installed, remove it first. This is only needed for Yarn v1. We're now on Yarn v4, so you can remove it. Check with `which yarn` — if it returns an asdf path, remove the plugin, reshim, and restart your terminal.
 
-- [NodeJS 18.x](https://nodejs.org/en/) (installed using `asdf`)
-- [Yarn 1.22.x](https://yarnpkg.com/)
-- Postgres 13.x
+## Getting started
 
-If `asdf` is not used, ensure these are available and in your path. You can check this with:
-
-``` sh
-$ ruby --version
-ruby ruby 3.4.2
-
-$ rails --version
-Rails 8.0.2
-
-$ node --version
-v18.1.0
-
-$ yarn --version
-1.22.19
-
-$ foreman --version
-0.87.2
-
-$ pg_config --version
-PostgreSQL 13.5
-```
-
-## How to setup a new project
-
-To create a new application called `apply-for-a-juggling-licence`:
-
-```sh
-rails new \
-  --database=postgresql \
-  --skip-bundle \
-  --skip-git \
-  --skip-jbuilder \
-  --skip-hotwire \
-  --skip-action-mailbox \
-  --skip-action-mailer \
-  --skip-action-text \
-  --skip-action-cable \
-  --javascript=esbuild \
-  --css=sass \
-  -m https://raw.githubusercontent.com/DFE-Digital/rails-template/main/template.rb \
-  apply-for-a-juggling-licence
-```
-
-The installer will ask you to confirm `y/N` if you want any optional features.
-
-Once the project is set up, tidy up the `README`, it should already contain
-some references to helpful things like ADRs/linting if you opted into them.
-
-### Working with the project
+### 1. Create your project directory
 
 ```bash
-# Make sure Postgres is running
+mkdir apply-for-a-juggling-licence
 cd apply-for-a-juggling-licence
-asdf install           # Install Ruby/Node/other tools, see README
-bin/setup              # Install gems, create databases, remove old logs
-bin/dev                # Run the application in development mode using foreman
+```
+
+### 2. Setup Ruby and Node with asdf
+
+```bash
+asdf plugin add ruby || asdf plugin update ruby
+asdf plugin add nodejs || asdf plugin update nodejs
+asdf local ruby 4.0.2
+asdf local nodejs 24.14.0
+asdf install
+gem install rails
+```
+
+### 3. Setup Yarn
+
+```bash
+corepack enable
+yarn set version stable
+echo "nodeLinker: node-modules" >> .yarnrc.yml
+```
+
+### 4. Run rails new with the template
+
+```bash
+rails new . \
+  --skip-action-mailer \
+  --skip-hotwire \
+  --skip-jbuilder \
+  --skip-test \
+  --skip-action-mailbox \
+  --skip-action-text \
+  --skip-action-cable \
+  --skip-active-storage \
+  --skip-kamal \
+  --no-rc \
+  --database=postgresql \
+  --javascript=esbuild \
+  --css=sass \
+  -m https://raw.githubusercontent.com/DFE-Digital/rails-template/main/template.rb
+```
+
+The template will apply the full default stack: GOV.UK frontend, RSpec, linting, ADR support, semantic logging, Docker, and more.
+
+### 5. Verify it works
+
+```bash
+bin/ci                    # Run the full test suite and linters
+bin/setup                 # Setup databases and runs dev server
 open http://localhost:3000
+```
+
+Check the commit history to see what the template changed. Build the Docker image to make sure it works (see comments in the `Dockerfile`).
+
+### Working with the generated project
+
+```bash
+bin/dev                   # Run the app with Foreman
+bin/setup                 # Reset databases and logs
+bin/ci                    # Run tests and linters
 
 # Production
-bin/rails db:create RAILS_ENV=production # Prepare database
-docker build .                           # Build docker container
+bin/rails db:create RAILS_ENV=production
+docker build .
 docker run --net=host \
   -e RAILS_ENV=production \
   -e RAILS_SERVE_STATIC_FILES=true \
   -e SECRET_KEY_BASE=local \
-  <DOCKER_IMAGE_ID_FROM_BUILD_COMMAND>
-open http://localhost:3000
+  <DOCKER_IMAGE_ID>
 ```
-
-### Importing improvements from the template
-
-We might make changes to the template to improve how things work, or add new
-features. We've tried to make it easy to benefit from these changes.
-
-To apply the template to an existing project, run this from inside your
-project:
-
-```sh
-bin/rails app:template LOCATION=https://raw.githubusercontent.com/DFE-Digital/rails-template/main/template.rb
-```
-
-The script will ask to overwrite diverging files; press the `d` key to see the
-diffs for each file, and choose accordingly. You might have to make some
-changes yourself if you've overriden certain files, like the layout.
 
 ### Support
 
