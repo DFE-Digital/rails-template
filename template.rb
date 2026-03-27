@@ -181,7 +181,7 @@ def post_template_commit
   say "\n=== Creating post-template commit ==="
   git(add: ".")
   git(commit: <<~COMMIT)
-    -m "Initial commit
+    -m "Post template commit
 
     Built using the Department for Education's Rails template"
   COMMIT
