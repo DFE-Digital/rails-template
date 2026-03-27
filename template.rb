@@ -26,6 +26,8 @@ def apply_template!
     setup_adrs # Put last for correct ordering in README
     setup_semantic_logger
 
+    setup_dfe_analytics
+
     fix_ci
     fix_setup
     bundle_with_checksums
@@ -155,6 +157,12 @@ def setup_semantic_logger
   say("\n=== semantic logger https://logger.rocketjob.io/ ===")
 
   apply 'templates/semantic_logger.rb'
+end
+
+def setup_dfe_analytics
+  say("\n=== DfE Analytics ===")
+
+  apply 'templates/dfe_analytics.rb'
 end
 
 def fix_ci
