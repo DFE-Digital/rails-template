@@ -90,12 +90,24 @@ Check the commit history to see what the template changed. Build the Docker imag
 
 ### Working with the generated project
 
-```bash
-bin/dev                   # Run the app with Foreman
-bin/setup                 # Reset databases and logs
-bin/ci                    # Run tests and linters
+**Daily workflow:**
 
-# Production
+```bash
+git pull origin your-branch
+bin/setup
+```
+
+`bin/setup` is idempotent. It migrates the database, seeds it, installs gems and JavaScript packages, and starts the Rails dev server. Run it every time you pull changes and you'll be up and running.
+
+**Run tests and linters:**
+
+```bash
+bin/ci
+```
+
+**Production:**
+
+```bash
 bin/rails db:create RAILS_ENV=production
 docker build .
 docker run --net=host \
