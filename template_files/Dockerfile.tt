@@ -20,10 +20,10 @@ ARG RUBY_VERSION=<%= Gem.ruby_version %>
 ARG NODE_VERSION=<%= node_version %>
 
 # Node image
-FROM docker.io/library/node:$NODE_VERSION-alpine AS node
+FROM docker.io/library/node:$NODE_VERSION-alpine3.23 AS node
 
 # Build base image
-FROM docker.io/library/ruby:$RUBY_VERSION-alpine AS base
+FROM docker.io/library/ruby:$RUBY_VERSION-alpine3.23 AS base
 
 # Add the timezone (base image) as it's not configured by default in Alpine
 RUN apk add --update --no-cache tzdata && \
