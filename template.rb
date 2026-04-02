@@ -1,4 +1,4 @@
-fail("Rails 7.0.0 or greater is required") if Rails.version <= "7"
+fail("Rails 8.0.0 or greater is required") if Rails.version <= "8"
 
 def apply_template!
   add_template_repository_to_source_path
