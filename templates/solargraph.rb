@@ -1,13 +1,13 @@
-template 'solargraph.yml', '.solargraph.yml'
+say "  - Setting up Solargraph for IDE support"
 
-inject_into_file(
-  "Gemfile",
-  "gem 'solargraph', require: false\n" \
-  "gem 'solargraph-rails', require: false\n".indent(2),
-  after: "group :development do\n"
-)
+template 'template_files/solargraph.yml', '.solargraph.yml'
 
-run "bin/bundle --quiet"
+gem_group :development do
+  gem 'solargraph', require: false
+  gem 'solargraph-rails', require: false
+end
+
+run "bundle install --quiet"
 
 append_to_file(
   'README.md',
@@ -21,7 +21,7 @@ append_to_file(
     dependencies and you want completion):
 
     ```sh
-    bin/bundle exec yard gems
+    bundle exec yard gems
     ```
 
     You'll also need to configure your editor's `solargraph` plugin to

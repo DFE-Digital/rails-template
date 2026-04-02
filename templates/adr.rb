@@ -1,12 +1,12 @@
-inject_into_file(
-  "Gemfile",
-  "gem 'rladr'\n".indent(2),
-  after: "group :development do\n"
-)
+say "  - Setting up Architecture Decision Records"
 
-run "bin/bundle --quiet"
+gem_group :development do
+  gem 'rladr'
+end
 
-run "bin/bundle exec rladr init adr"
+run "bundle install --quiet"
+
+run "bundle exec rladr init adr"
 
 append_to_file(
   'README.md',
@@ -19,15 +19,10 @@ append_to_file(
     We use `rladr` to generate the boilerplate for new records:
 
     ```bash
-    bin/bundle exec rladr new title
+    bundle exec rladr new title
     ```
   MD
 )
 
-template 'adr/00001-record-architecture-decisions.md', force: true
-
-gsub_file(
-  'adr/00001-record-architecture-decisions.md',
-  /2022-05-10/,
-  Time.new.strftime('%Y-%m-%d')
-)
+template 'template_files/adr/00001-record-architecture-decisions', 'adr/00001-record-architecture-decisions.md', force: true
+template 'template_files/adr/00002-use-dfe-rails-template', 'adr/00002-use-dfe-rails-template.md', force: true
