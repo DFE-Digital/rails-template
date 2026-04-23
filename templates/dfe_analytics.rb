@@ -9,7 +9,7 @@ airbyte_config = <<-RUBY
   config.airbyte_stream_config_path = 'config/analytics_airbyte_stream_config.json'
   
 RUBY
-# FIXME: Uncomment this whent he version is updated
+# FIXME: Uncomment this when the version is updated
 # insert_into_file("config/initializers/dfe_analytics.rb", airbyte_config, after: "DfE::Analytics.configure do |config|\n" )
 
 azure_federated_auth_config = <<-RUBY
