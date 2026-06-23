@@ -11,6 +11,7 @@ def apply_template!
     ensure_node_version_set
 
     setup_readme
+    setup_bundler
     setup_dependabot
 
     configure_generators
@@ -85,6 +86,17 @@ end
 def setup_readme
   say "\n=== Setting up README ==="
   apply 'templates/readme.rb'
+end
+
+def setup_bundler
+  say "\n=== Setting up bundler ==="
+  run("bundle update")
+  # Setting checksums and cooldown using `bundle config` is not persisted
+  # as the `.bundle` directory is gitignored.
+  # So we need to run `bundle lock --add-checksums` to add checksums to the Gemfile.lock.
+  run("bundle lock --add-checksums")
+  # and inject the cooldown into the Gemfile
+  gsub_file("Gemfile", "source 'https://rubygems.org'", "source 'https://rubygems.org', cooldown: 7")
 end
 
 def setup_dependabot
